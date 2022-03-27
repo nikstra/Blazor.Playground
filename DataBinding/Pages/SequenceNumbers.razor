@@ -1,0 +1,31 @@
+﻿@page "/SequenceNumbers"
+@using System.Runtime.CompilerServices
+
+@* https://www.syncfusion.com/faq/blazor/components/how-do-you-create-elements-dynamically-in-blazor *@
+
+<button type="button" @onclick="@RenderComponent">
+    Trigger rendering
+</button>
+ 
+@DynamicFragment
+ 
+ 
+@code {
+    private string dynamicContent = "This is a long text...";
+    private RenderFragment DynamicFragment;
+    private static int MyLineNum([CallerLineNumber] int sequence = 0) => sequence;
+ 
+    private RenderFragment CreateComponent() => builder =>
+    {
+        dynamicContent = dynamicContent.Replace("long", "long long");
+ 
+        builder.OpenElement(MyLineNum(), "p");
+        builder.AddContent(MyLineNum(), dynamicContent);
+        builder.CloseElement();
+    };
+ 
+    private void RenderComponent()
+    {
+        DynamicFragment = CreateComponent();
+    }
+}

@@ -1,0 +1,45 @@
+﻿@page "/DynamicTable"
+
+@* https://stackoverflow.com/a/68106390 *@
+
+<h3>DynamicTable</h3>
+
+<table style="width:100%">
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Command</th>
+  </tr>
+  @foreach(var model in models)
+  {
+  <tr>
+    <td>@model.Name</td>
+    <td>@model.Value</td>
+     <td>
+         <button @onclick="() => models.Remove(model)">
+             X
+         </button>
+     </td>
+  </tr>
+  }
+
+</table>
+<button @onclick="@(() => models.Add(new Model(){Name = nameTextField, Value = Int32.Parse(valueTextField)}))">
+    New value
+</button>
+<div>
+Name: <input @bind="@nameTextField" @oninput="(e)=> { nameTextField = e.Value ==null? string.Empty:(string)e.Value; }" />
+</div>
+<div>
+Value: <input type="number" @bind="@valueTextField" @oninput="(e)=> { valueTextField = e.Value ==null? string.Empty:(string)e.Value; }" />
+
+</div>
+@code {
+string nameTextField = "";
+string valueTextField = "";
+List<Model> models = new()
+    {
+        new Model(){Name="Row1",Value = 1},
+        new Model(){Name="Row2",Value = 2}
+    };
+}

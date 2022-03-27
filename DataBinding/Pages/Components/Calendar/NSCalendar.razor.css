@@ -1,0 +1,126 @@
+.today {
+    background: palegreen;
+}
+
+.other-month {
+    background: whitesmoke;
+    color: gray;
+}
+
+.day-number {
+    font-size: 1.5em;
+    text-align: right;
+}
+
+.alignleft {
+    width: 33.33333%;
+    text-align: left;
+}
+
+.aligncenter {
+    width: 33.33333%;
+    text-align: center;
+}
+
+.alignright {
+    width: 33.33333%;
+    text-align: right;
+}
+
+ul {
+    padding-left: 0.1em;
+}
+
+ul li {
+    background: lightblue;
+    border-radius: 3px;
+    font-size: small;
+    list-style: none;
+    margin: 1px;
+    padding: 0.1em;
+}
+
+button {
+    border-radius: 5px;
+    line-height: 2em;
+    padding: 0.2em 1em;
+    vertical-align: middle;
+}
+
+.triangle-left {
+	width: 0;
+	height: 0;
+	border-top: 0.4em solid transparent;
+	border-right: 1em solid #555;
+	border-bottom: 0.4em solid transparent;
+    display: inline-block;
+}
+
+.triangle-right {
+	width: 0;
+	height: 0;
+	border-top: 0.4em solid transparent;
+	border-left: 1em solid #555;
+	border-bottom: 0.4em solid transparent;
+    display: inline-block;
+}
+
+/* CSS Grid */
+.ns-cal-grid-container {
+    display: grid;
+    grid-gap: 0px;
+    grid-template-columns: 3ch repeat(7, 1fr);
+    grid-template-rows: repeat(auto-fit, 1fr);
+    /*height: 90vh;*/
+    margin: 0 auto;
+    width: 90%;
+}
+
+.ns-cal-grid-element {
+    border: 1px solid lightgrey;
+    /* font-size: 0.6em; */
+    height: 8em;
+    /*min-height: 4em;*/
+    overflow: hidden;
+}
+
+.ns-cal-grid-head {
+    font-size: 18px;
+    font-weight: bold;
+    grid-column: 2 / span 7;
+    justify-self: center;
+}
+
+.ns-cal-grid-subhead-left {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    text-align: left;
+}
+
+.ns-cal-grid-subhead-center {
+    grid-column-start: 3;
+    grid-column-end: 8;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    justify-self: center;
+    text-align: center;
+}
+
+.ns-cal-grid-subhead-right {
+    grid-column-start: 8;
+    grid-column-end: 9;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    text-align: right;
+}
+
+.ns-cal-grid-column-title {
+    border: 1px solid lightgrey;
+    font-weight: bold;
+    height: 1.4em;
+    overflow: hidden;
+    text-align: center;
+}
+  
