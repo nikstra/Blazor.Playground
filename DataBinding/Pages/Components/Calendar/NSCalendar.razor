@@ -12,50 +12,43 @@ I. e. non of the if statements that are trying to close and open tr tags will wo
 must have balanced opening and closing tags.
 *@
 
-<div class="ns-cal-grid-container">
-    <div class="ns-cal-grid-head">
-        <h2 class="aligncenter">@SelectedDate.Year</h2>
-    </div>
-
-    <div class="ns-cal-grid-subhead-left">
-        <button @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button>
-    </div>
-    <div class="ns-cal-grid-subhead-center">
-        <h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month)</h3>
-    </div>
-    <div class="ns-cal-grid-subhead-right">
-        <button @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button>
-    </div>
-
-    <div class="ns-cal-grid-column-title"></div>
+<div class="nscal">
+  <div class="nscal-head">
+    <div class="nscal-month"><h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month)</h3></div>
+    <div class="nscal-year"><h2>@SelectedDate.Year</h2></div>
+    <div class="nscal-prev"><button @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
+    <div class="nscal-next"><button @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
+  </div>
+  <div class="nscal-body">
+    <div class="nscal-week-head"></div>
     @foreach (var day in WeekDays)
     {
-        <div class="ns-cal-grid-column-title">@day</div>
+        <div class="nscal-week-head">@day</div>
     }
 
     @foreach (var week in Weeks)
     {
-        <div class="ns-cal-grid-element">@week.WeekNumber</div>
+        <div class="nscal-week-item">@week.WeekNumber</div>
         @foreach(var day in week?.Days)
         {
-            <div class="ns-cal-grid-element @GetCssClass(day.Date)" >
-                <div class="day-number">@day.DayNumber</div>
-                <div class="entries">
-                    @{ var count = day.Entries.Count(); }
-                    <ul>
-                    @foreach (var entry in day.Entries.Take(EntryLimit))
-                    {
-                        <li>@entry.Name</li>
-                    }
-                    @if(count > EntryLimit)
-                    {
-                        <li>+ @(count - EntryLimit) more</li>
-                    }
-                    </ul>
+            <div class="nscal-day-item @GetCssClass(day.Date)">
+                <div class="nscal-day-head">
+                    <span class="nscal-normal-text nscal-text-left">@*National Day of Sweden*@</span>
+                    <span class="nscal-large-text nscal-text-right">@day.DayNumber</span>
                 </div>
+                @{ var count = day.Entries.Count(); }
+                @foreach (var entry in day.Entries.Take(EntryLimit))
+                {
+                    <div class="nscal-entry nscal-normal-text">@entry.Name</div>
+                }
+                @if(count > EntryLimit)
+                {
+                    <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) more</div>
+                }
             </div>
         }
     }
+  </div>
 </div>
 
 @code {
@@ -106,6 +99,12 @@ must have balanced opening and closing tags.
     {
         await LoadCalendar();
         await base.OnInitializedAsync();
+    }
+
+    public async override Task SetParametersAsync(ParameterView parameters)
+    {
+        await base.SetParametersAsync(parameters);
+        @* CurrentCount = CurrentCount ?? 1; *@
     }
 
     private async Task LoadCalendar()
