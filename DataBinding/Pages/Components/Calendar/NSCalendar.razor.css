@@ -1,163 +1,146 @@
 .today {
-    background: palegreen;
+  background: palegreen;
 }
 
 .other-month {
-    background: whitesmoke;
-    color: gray;
-}
-
-.day-number {
-    font-size: 1.5em;
-    text-align: right;
-}
-
-.alignleft {
-    width: 33.33333%;
-    text-align: left;
-}
-
-.aligncenter {
-    width: 33.33333%;
-    text-align: center;
-}
-
-.alignright {
-    width: 33.33333%;
-    text-align: right;
-}
-
-ul {
-    padding-left: 0.1em;
-}
-
-ul li {
-    background: lightblue;
-    border-radius: 3px;
-    font-size: small;
-    list-style: none;
-    margin: 1px;
-    padding: 0.1em;
-}
-
-button {
-    border-radius: 5px;
-    line-height: 2em;
-    padding: 0.2em 1em;
-    vertical-align: middle;
+  background: whitesmoke;
+  color: gray;
 }
 
 .triangle-left {
-	width: 0;
-	height: 0;
-	border-top: 0.4em solid transparent;
-	border-right: 1em solid #555;
-	border-bottom: 0.4em solid transparent;
-    display: inline-block;
+  border-bottom: 0.4em solid transparent;
+  border-right: 1em solid blue;
+  border-top: 0.4em solid transparent;
+  display: inline-block;
+  height: 0;
+  width: 0;
 }
 
 .triangle-right {
-	width: 0;
-	height: 0;
-	border-top: 0.4em solid transparent;
-	border-left: 1em solid #555;
-	border-bottom: 0.4em solid transparent;
-    display: inline-block;
+  border-bottom: 0.4em solid transparent;
+  border-left: 1em solid blue;
+  border-top: 0.4em solid transparent;
+  display: inline-block;
+  height: 0;
+  width: 0;
 }
 
 /* CSS Grid */
 
 .nscal {
-    display: grid;
-    font-size: 0.7vw;
-    margin: 0 auto;
-    grid-template-areas:
-      "calhead"
-      "calbody";
-    padding: 10px;
-  }
-  
-  .nscal-head {
-    display: grid;
-    grid-area: calhead;
-    grid-template-areas:
-      ".... month month month month month month ...."
-      "prev year  year  year  year  year  year  next";
-  }
-  
-  .nscal-month {
-    grid-area: month;
-    text-align: center;
-  }
-  
-  .nscal-year {
-    grid-area: year;
-    text-align: center;
-  }
-  
-  .nscal-prev {
-    grid-area: prev;
-    text-align: left;
-  }
-  
-  .nscal-next {
-    grid-area: next;
-    text-align: right;
-  }
-  
-  .nscal-body {
-    display: grid;
-    grid-area: calbody;
-    grid-template-columns: 3ch repeat(7, 1fr);
-    grid-template-rows: 2em repeat(auto-fill, 1fr);
-  }
-  
-  .nscal-week-head {
-    border: 1px solid lightgrey;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  .nscal-week-item {
-    vertical-align: middle;
-  }
-  
-  .nscal-day-item {
-    border: 1px solid lightgrey;
-    display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 2fr repeat(4, 1fr);
-    padding: 5px;
-  }
+  display: grid;
+  margin: 0 auto;
+  grid-template-areas:
+    "calhead"
+    "calbody";
+  grid-template-rows: 6em auto;
+  height: 90vh;
+  line-height: normal;
+  padding: 10px;
+  width: 100%;
+}
 
-  .nscal-large-text {
-    display: inline-block;
-    font-size: 1.4em;
-    margin-left: auto;
-  }
+.nscal-head {
+  display: grid;
+  grid-area: calhead;
+  grid-template-areas:
+    ".... month month month month month month ...."
+    "prev year  year  year  year  year  year  next";
+}
 
-  .nscal-normal-text {
-    font-size: 1em;
-  }
+.nscal-month {
+  grid-area: month;
+  text-align: center;
+}
 
-  .nscal-text-right {
-    text-align: right;
-  }
+.nscal-year {
+  grid-area: year;
+  text-align: center;
+}
 
-  .nscal-text-left {
-    text-align: left;
-  }
+.nscal-prev {
+  align-self: flex-end;
+  grid-area: prev;
+  padding: 1em;
+  text-align: left;
+}
 
-  .nscal-day-head {
-    display: grid;
-    grid-template-columns: auto 4ch;
-    /* grid-template-rows: auto; */
-    /* justify-content: space-between; */
-  }
+.nscal-next {
+  align-self: flex-end;
+  grid-area: next;
+  padding: 1em;
+  text-align: right;
+}
 
-  .nscal-entry {
-    background: lightblue;
-    border-radius: 3px;
-    margin: 1px;
-    padding: 0.1em;
-  }
+.nscal-button-link {
+  background: none;
+  border: none;
+  color: blue;
+}
+
+.nscal-button-link:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.nscal-button-link:focus {
+  border: none;
+  outline: none;
+}
+
+.nscal-body {
+  display: grid;
+  grid-area: calbody;
+  grid-template-columns: 3ch repeat(7, 1fr);
+  grid-template-rows: 2em repeat(auto-fill, 7em);
+}
+
+.nscal-week-head {
+  border: 1px solid lightgrey;
+  font-weight: bold;
+  line-height: 2em;
+  text-align: center;
+}
+
+.nscal-week-item {
+  vertical-align: middle;
+}
+
+.nscal-day-item {
+  border: 1px solid lightgrey;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 2fr repeat(4, 1fr);
+  padding: 5px;
+}
+
+.nscal-large-text {
+  display: inline-block;
+  font-size: 1em;
+  margin-left: auto;
+}
+
+.nscal-normal-text {
+  display: inline-block;
+  font-size: 0.8em;
+}
+
+.nscal-text-right {
+  text-align: right;
+}
+
+.nscal-text-left {
+  text-align: left;
+}
+
+.nscal-day-head {
+  display: grid;
+  grid-template-columns: auto 4ch;
+}
+
+.nscal-entry {
+  background: lightblue;
+  border-radius: 3px;
+  margin: 1px;
+  padding: 0.1em;
+}

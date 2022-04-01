@@ -16,11 +16,11 @@ must have balanced opening and closing tags.
   <div class="nscal-head">
     <div class="nscal-month"><h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month)</h3></div>
     <div class="nscal-year"><h2>@SelectedDate.Year</h2></div>
-    <div class="nscal-prev"><button @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
-    <div class="nscal-next"><button @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
+    <div class="nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
+    <div class="nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
   </div>
   <div class="nscal-body">
-    <div class="nscal-week-head"></div>
+    <div class="nscal-week-item"></div>
     @foreach (var day in WeekDays)
     {
         <div class="nscal-week-head">@day</div>
@@ -33,8 +33,8 @@ must have balanced opening and closing tags.
         {
             <div class="nscal-day-item @GetCssClass(day.Date)">
                 <div class="nscal-day-head">
-                    <span class="nscal-normal-text nscal-text-left">@*National Day of Sweden*@</span>
-                    <span class="nscal-large-text nscal-text-right">@day.DayNumber</span>
+                    <div class="nscal-normal-text nscal-text-left">@*National Day of Sweden*@</div>
+                    <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
                 </div>
                 @{ var count = day.Entries.Count(); }
                 @foreach (var entry in day.Entries.Take(EntryLimit))
