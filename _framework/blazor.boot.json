@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "DataBinding.dll": "sha256-NaNXfXrbZIRofX\/HAmGqp6DxNbFtoSgIGPkbuIZ2EFk=",
+      "DataBinding.dll": "sha256-SUHvutpi7\/jpGdTx\/lg7blQvW\/avtwE0iAkVjB0+cH8=",
       "Microsoft.AspNetCore.Components.dll": "sha256-HBawj1ILQXgpVncKQ4gesqEIW7hXAoDMkwmloG248hM=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-+6mS1xoI1mJUycF\/fAizjWHV2PlF8+\/JEeFKPUgS074=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-Izlw\/SnIKXEmOa2P51s8rKqkVBfJ+MDvJMUpyP5lHkk=",
