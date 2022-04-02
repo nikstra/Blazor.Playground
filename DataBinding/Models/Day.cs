@@ -11,5 +11,6 @@ namespace DataBinding.Models
         public DateOnly Date { get; set; }
         public int DayNumber { get; set; }
         public IEnumerable<CalendarEntry> Entries { get; set; }
+        public PublicHolidayModel Holiday { get; set; }
     }
 }

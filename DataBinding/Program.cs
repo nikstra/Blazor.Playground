@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,9 @@ using DataBinding.Models;
 using DataBinding.Pages.Components.Calendar;
 using DataBinding.Services;
 using DataBinding.Interfaces;
+using DataBinding.Common;
+using System.Text.Json.Serialization;
+using DataBinding.Clients;
 
 namespace DataBinding
 {
@@ -21,9 +25,18 @@ namespace DataBinding
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+            builder.Services.Configure<JsonSerializerOptions>(options =>
+            {
+                options.Converters.Add(new DateOnlyJsonConverter());
+                options.Converters.Add(new JsonStringEnumConverter());
+                options.PropertyNameCaseInsensitive = true;
+                // options.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddHttpClient<HolidaysClient>();
             builder.Services.AddScoped<ICalendarService, CalendarService>();
+            builder.Services.AddScoped<IHolidaysService, HolidaysService>();
 
             await builder.Build().RunAsync();
         }

@@ -1,5 +1,10 @@
-.today {
-  background: palegreen;
+div.today {
+  /* background: palegreen; */
+  border: 3px solid palegreen;
+}
+
+.holiday {
+  color: red;
 }
 
 .other-month {
@@ -9,7 +14,7 @@
 
 .triangle-left {
   border-bottom: 0.4em solid transparent;
-  border-right: 1em solid blue;
+  border-right: 1em solid #0056b3;
   border-top: 0.4em solid transparent;
   display: inline-block;
   height: 0;
@@ -18,7 +23,7 @@
 
 .triangle-right {
   border-bottom: 0.4em solid transparent;
-  border-left: 1em solid blue;
+  border-left: 1em solid #0056b3;
   border-top: 0.4em solid transparent;
   display: inline-block;
   height: 0;
@@ -75,7 +80,7 @@
 .nscal-button-link {
   background: none;
   border: none;
-  color: blue;
+  color: #0056b3;
 }
 
 .nscal-button-link:hover {

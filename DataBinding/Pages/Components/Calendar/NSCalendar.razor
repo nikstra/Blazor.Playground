@@ -1,8 +1,10 @@
 ﻿@using System.Globalization
+@using System.Linq
 @using DataBinding.Interfaces
 @using System.Threading
 
 @inject ICalendarService CalendarService
+@inject IHolidaysService HolidaysService
 
 @*
 Long lasting mystery solved, MarkupString is auto-closing tags.
@@ -32,8 +34,8 @@ must have balanced opening and closing tags.
         @foreach(var day in week?.Days)
         {
             <div class="nscal-day-item @GetCssClass(day.Date)">
-                <div class="nscal-day-head">
-                    <div class="nscal-normal-text nscal-text-left">@*National Day of Sweden*@</div>
+                <div class="nscal-day-head@((day.Holiday == null ? string.Empty : " holiday"))">
+                    <div class="nscal-normal-text nscal-text-left">@day.Holiday?.LocalName</div>
                     <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
                 </div>
                 @{ var count = day.Entries.Count(); }
@@ -109,16 +111,20 @@ must have balanced opening and closing tags.
 
     private async Task LoadCalendar()
     {
-        var getEntriesTask = CalendarService.GetEntriesAsync(SelectedDate);
-        var entries = (await getEntriesTask).ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
+        var entries = (await CalendarService.GetEntriesAsync(SelectedDate))
+            .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
+        var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, "se");
 
         var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
-        Weeks = GetDaysWithEntries(startDate, entries);
+        Weeks = GetDaysWithEntries(startDate, entries, holidays);
     }
 
     public IEnumerable<Week> Weeks { get; set; } = Array.Empty<Week>();
 
-    private IEnumerable<Week> GetDaysWithEntries(DateOnly startDate, ILookup<DateOnly, CalendarEntry> entries)
+    private IEnumerable<Week> GetDaysWithEntries(
+        DateOnly startDate,
+        ILookup<DateOnly, CalendarEntry> entries,
+        IDictionary<DateOnly, PublicHolidayModel> holidays)
     {
         var culture = CultureInfo.CreateSpecificCulture("sv-SE");
         //var culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -143,7 +149,8 @@ must have balanced opening and closing tags.
                     DayNumber = dayIndex.Day,
                     Date = dayIndex,
                     Entries = entries[dayIndex],
-                    Name = culture.DateTimeFormat.DayNames[(int)dayIndex.DayOfWeek]
+                    Name = culture.DateTimeFormat.DayNames[(int)dayIndex.DayOfWeek],
+                    Holiday = holidays.ContainsKey(dayIndex) ? holidays[dayIndex] : null
                 };
                 dayIndex = dayIndex.AddDays(1);
             }
