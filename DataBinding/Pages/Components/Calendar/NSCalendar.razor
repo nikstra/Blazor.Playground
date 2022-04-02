@@ -16,10 +16,14 @@ must have balanced opening and closing tags.
 
 <div class="nscal">
   <div class="nscal-head">
-    <div class="nscal-month"><h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month)</h3></div>
-    <div class="nscal-year"><h2>@SelectedDate.Year</h2></div>
-    <div class="nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
-    <div class="nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
+    <div class="nscal-month">
+        <h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
+    </div>
+    <div class="nscal-nav nscal-year">
+        <button class="nscal-button-link" @onclick="GotoToday">Today</button>
+    </div>
+    <div class="nscal-nav nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
+    <div class="nscal-nav nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
   </div>
   <div class="nscal-body">
     <div class="nscal-week-item"></div>
@@ -33,7 +37,7 @@ must have balanced opening and closing tags.
         <div class="nscal-week-item">@week.WeekNumber</div>
         @foreach(var day in week?.Days)
         {
-            <div class="nscal-day-item @GetCssClass(day.Date)">
+            <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")">
                 <div class="nscal-day-head@((day.Holiday == null ? string.Empty : " holiday"))">
                     <div class="nscal-normal-text nscal-text-left">@day.Holiday?.LocalName</div>
                     <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
@@ -71,6 +75,40 @@ must have balanced opening and closing tags.
     private DateOnly _selectedDate = DateOnly.FromDateTime(DateTime.Now);
     public DateOnly PreviousMonth { get; set; }
     public DateOnly NextMonth { get; set; }
+    
+    private static System.Timers.Timer _timer;
+    public string _todayPulse;
+    private void RunPulseTodayAnimation()
+    {
+        if(_timer is not null)
+        {
+            _timer.Stop();
+            _timer.Dispose();
+            _timer = null;
+        }
+
+        _todayPulse = "pulse";
+        _timer = new System.Timers.Timer(500);
+        _timer.Elapsed += (sender, args) =>
+        {
+            _todayPulse = string.Empty;
+            InvokeAsync(StateHasChanged);
+        };
+        _timer.AutoReset = true;
+        _timer.Enabled = true;
+    }
+    private async Task GotoToday()
+    {
+        var now = DateOnly.FromDateTime(DateTime.Now);
+        if(SelectedDate == now)
+        {
+            RunPulseTodayAnimation();
+            return;
+        }
+
+        SelectedDate = now;
+        await LoadCalendar();
+    }
 
     private async Task GotoPrevious()
     {

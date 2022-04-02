@@ -58,22 +58,22 @@ div.today {
   text-align: center;
 }
 
-.nscal-year {
+.nscal-nav {
+  padding: 1em;
+}
+
+.nscal-nav.nscal-year {
   grid-area: year;
   text-align: center;
 }
 
-.nscal-prev {
-  align-self: flex-end;
+.nscal-nav.nscal-prev {
   grid-area: prev;
-  padding: 1em;
   text-align: left;
 }
 
-.nscal-next {
-  align-self: flex-end;
+.nscal-nav.nscal-next {
   grid-area: next;
-  padding: 1em;
   text-align: right;
 }
 
@@ -148,4 +148,19 @@ div.today {
   border-radius: 3px;
   margin: 1px;
   padding: 0.1em;
+}
+
+/* Animations */
+
+.today.pulse {
+  animation: pulse 1s;
+}
+
+@keyframes pulse {
+ from {
+  background: palegreen;
+ }
+ to {
+   background: inherit;
+ } 
 }
