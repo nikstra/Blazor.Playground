@@ -50,31 +50,31 @@ div.today[b-wzr8lbam8n] {
   display: grid;
   grid-area: calhead;
   grid-template-areas:
-    ".... month month month month month month ...."
-    "prev year  year  year  year  year  year  next";
+    ".... head head head head head head ...."
+    "prev nav  nav  nav  nav  nav  nav  next";
 }
 
 .nscal-month[b-wzr8lbam8n] {
-  grid-area: month;
+  grid-area: head;
   text-align: center;
 }
 
-.nscal-year[b-wzr8lbam8n] {
-  grid-area: year;
-  text-align: center;
-}
-
-.nscal-prev[b-wzr8lbam8n] {
-  align-self: flex-end;
-  grid-area: prev;
+.nscal-nav[b-wzr8lbam8n] {
   padding: 1em;
+}
+
+.nscal-nav.nscal-year[b-wzr8lbam8n] {
+  grid-area: nav;
+  text-align: center;
+}
+
+.nscal-nav.nscal-prev[b-wzr8lbam8n] {
+  grid-area: prev;
   text-align: left;
 }
 
-.nscal-next[b-wzr8lbam8n] {
-  align-self: flex-end;
+.nscal-nav.nscal-next[b-wzr8lbam8n] {
   grid-area: next;
-  padding: 1em;
   text-align: right;
 }
 
@@ -149,6 +149,21 @@ div.today[b-wzr8lbam8n] {
   border-radius: 3px;
   margin: 1px;
   padding: 0.1em;
+}
+
+/* Animations */
+
+.today.pulse[b-wzr8lbam8n] {
+  animation: pulse-b-wzr8lbam8n 1s;
+}
+
+@keyframes pulse-b-wzr8lbam8n {
+ from {
+  background: palegreen;
+ }
+ to {
+   background: inherit;
+ } 
 }
 /* /Shared/MainLayout.razor.rz.scp.css */
 .page[b-2hc49juuam] {
