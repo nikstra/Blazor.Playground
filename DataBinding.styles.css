@@ -1,6 +1,11 @@
 /* /Pages/Components/Calendar/NSCalendar.razor.rz.scp.css */
-.today[b-wzr8lbam8n] {
-  background: palegreen;
+div.today[b-wzr8lbam8n] {
+  /* background: palegreen; */
+  border: 3px solid palegreen;
+}
+
+.holiday[b-wzr8lbam8n] {
+  color: red;
 }
 
 .other-month[b-wzr8lbam8n] {
@@ -10,7 +15,7 @@
 
 .triangle-left[b-wzr8lbam8n] {
   border-bottom: 0.4em solid transparent;
-  border-right: 1em solid blue;
+  border-right: 1em solid #0056b3;
   border-top: 0.4em solid transparent;
   display: inline-block;
   height: 0;
@@ -19,7 +24,7 @@
 
 .triangle-right[b-wzr8lbam8n] {
   border-bottom: 0.4em solid transparent;
-  border-left: 1em solid blue;
+  border-left: 1em solid #0056b3;
   border-top: 0.4em solid transparent;
   display: inline-block;
   height: 0;
@@ -76,7 +81,7 @@
 .nscal-button-link[b-wzr8lbam8n] {
   background: none;
   border: none;
-  color: blue;
+  color: #0056b3;
 }
 
 .nscal-button-link:hover[b-wzr8lbam8n] {
