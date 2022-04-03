@@ -2,7 +2,7 @@
 @using Microsoft.JSInterop
 @using System.Globalization
 
-<strong>Culture:</strong>
+<strong>@Localizer[Language]:</strong>
 
 <select class="form-control" @bind="Culture" style="width:300px; margin-left:10px;">
 	@foreach (var culture in cultures)
@@ -12,6 +12,11 @@
 </select>
 
 @code {
+    public const string Language = "language";
+
+    [Inject]
+    public IStringLocalizer<CultureSelector> Localizer { get; set; }
+
     [Inject]
     public NavigationManager NavManager { get; set; }
 
