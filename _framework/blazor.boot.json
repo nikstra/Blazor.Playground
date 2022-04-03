@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "DataBinding.dll": "sha256-BOyI09Wf0BDa84+F0GGNFgDBhKf8T+KGsbPMRfc\/ssA=",
+      "DataBinding.dll": "sha256-LsTCXN3UVy1WGQ998moiY70qkndN1DF2\/+Us5K8+\/lM=",
       "Microsoft.AspNetCore.Components.dll": "sha256-uTaSMMOmAuMLfwlm6whN5WrJn9uzNfyvd9n4+6jvMOg=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-+6mS1xoI1mJUycF\/fAizjWHV2PlF8+\/JEeFKPUgS074=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-HMV+UaT3TOl6LdFI8JqngEgA\/BuD3P0gQj4cMnWm\/lQ=",
@@ -65,7 +65,7 @@
     },
     "satelliteResources": {
       "sv": {
-        "sv\/DataBinding.resources.dll": "sha256-4HDiso7NJBrnOS8ccAVoHJw3FrSZMDbN6nKmymJmCgc="
+        "sv\/DataBinding.resources.dll": "sha256-JgQ5Aq1wzhl03FXRoHS0TgOgPSp85vcDnutaa6BkEOg="
       }
     }
   }
