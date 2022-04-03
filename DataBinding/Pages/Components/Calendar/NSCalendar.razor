@@ -145,12 +145,6 @@ must have balanced opening and closing tags.
         await base.OnInitializedAsync();
     }
 
-    public async override Task SetParametersAsync(ParameterView parameters)
-    {
-        await base.SetParametersAsync(parameters);
-        @* CurrentCount = CurrentCount ?? 1; *@
-    }
-
     private async Task LoadCalendar()
     {
         var entries = (await CalendarService.GetEntriesAsync(SelectedDate))
@@ -168,13 +162,8 @@ must have balanced opening and closing tags.
     private IEnumerable<Week> GetDaysWithEntries(
         DateOnly startDate,
         ILookup<DateOnly, CalendarEntry> entries,
-        IDictionary<DateOnly, PublicHolidayModel> holidays)
+        ILookup<DateOnly, PublicHolidayModel> holidays)
     {
-        //var culture = CultureInfo.CreateSpecificCulture("sv-SE");
-        //var culture = CultureInfo.CreateSpecificCulture("en-US");
-
-        //Thread.CurrentThread.CurrentCulture = culture;
-        //Thread.CurrentThread.CurrentUICulture = culture;
         var culture = Thread.CurrentThread.CurrentCulture;
         var firstDayOfWeek = culture.DateTimeFormat.FirstDayOfWeek;
         var firstDayInMonth = startDate;
@@ -194,7 +183,8 @@ must have balanced opening and closing tags.
                     Date = dayIndex,
                     Entries = entries[dayIndex],
                     Name = culture.DateTimeFormat.DayNames[(int)dayIndex.DayOfWeek],
-                    Holiday = holidays.ContainsKey(dayIndex) ? holidays[dayIndex] : null
+                    // TODO: There can be more than one holiday for a given date. Just grab the first one for now.
+                    Holiday = holidays[dayIndex]?.FirstOrDefault()
                 };
                 dayIndex = dayIndex.AddDays(1);
             }
