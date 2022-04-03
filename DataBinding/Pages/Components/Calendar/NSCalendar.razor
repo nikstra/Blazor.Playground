@@ -3,10 +3,11 @@
 @using DataBinding.Interfaces
 @using System.Threading
 @using DataBinding.Extensions
-    
+
 @inject ICalendarService CalendarService
 @inject IHolidaysService HolidaysService
 @inject IStringLocalizer<NSCalendar> Localizer
+@inject IJSRuntime JsRuntime
 
 @*
 Long lasting mystery solved, MarkupString is auto-closing tags.
@@ -19,13 +20,21 @@ must have balanced opening and closing tags.
 <div class="nscal">
   <div class="nscal-head">
     <div class="nscal-month">
-        <h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month).FirstCharToUpper() @SelectedDate.Year</h3>
+        <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
     </div>
     <div class="nscal-nav nscal-year">
         <button class="nscal-button-link" @onclick="GotoToday">@Localizer[Today]</button>
     </div>
-    <div class="nscal-nav nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month).FirstCharToUpper()</button></div>
-    <div class="nscal-nav nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month).FirstCharToUpper() <div class="triangle-right"></div></button></div>
+    <div class="nscal-nav nscal-prev">
+        <button class="nscal-button-link" @onclick="GotoPrevious">
+            <div class="triangle-left"></div> @GetFormattedMonthName(PreviousMonth.Month)
+        </button>
+    </div>
+    <div class="nscal-nav nscal-next">
+        <button class="nscal-button-link" @onclick="GotoNext">
+            @GetFormattedMonthName(NextMonth.Month) <div class="triangle-right"></div>
+        </button>
+    </div>
   </div>
   <div class="nscal-body">
     <div class="nscal-week-item"></div>
@@ -39,7 +48,7 @@ must have balanced opening and closing tags.
         <div class="nscal-week-item">@week.WeekNumber</div>
         @foreach(var day in week?.Days)
         {
-            <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")">
+            <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
                 <div class="nscal-day-head@((day.Holiday == null ? string.Empty : " holiday"))">
                     <div class="nscal-normal-text nscal-text-left">@day.Holiday?.LocalName</div>
                     <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
@@ -64,6 +73,8 @@ must have balanced opening and closing tags.
     public const string Today = "today";
 
     private const int EntryLimit = 3;
+    private string GetFormattedMonthName(int month) =>
+        Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(month).FirstCharToUpper();
 
     [Parameter]
     public DateOnly SelectedDate
@@ -124,6 +135,18 @@ must have balanced opening and closing tags.
         SelectedDate = NextMonth;
         await LoadCalendar();
     }
+    private void ShowDetails(DateOnly date, MouseEventArgs eventArgs)
+    {
+        var dayEntries = _entries[date];
+        if(!dayEntries.Any())
+        {
+            return;
+        }
+        // TODO: Add a details view.
+        var texts = dayEntries.Select(e => $"{e.Start} {e.Duration} {e.Name}");
+
+        JsRuntime.InvokeVoidAsync("alert", "CALENDAR ENTRIES" + Environment.NewLine + string.Join(Environment.NewLine, texts));
+    }
 
     private string GetCssClass(DateOnly date)
     {
@@ -145,16 +168,17 @@ must have balanced opening and closing tags.
         await base.OnInitializedAsync();
     }
 
+    private ILookup<DateOnly, CalendarEntry> _entries;
     private async Task LoadCalendar()
     {
-        var entries = (await CalendarService.GetEntriesAsync(SelectedDate))
+        _entries = (await CalendarService.GetEntriesAsync(SelectedDate))
             .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
 
         var region = new RegionInfo(Thread.CurrentThread.CurrentCulture.LCID);
         var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, region.TwoLetterISORegionName);
 
         var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
-        Weeks = GetDaysWithEntries(startDate, entries, holidays);
+        Weeks = GetDaysWithEntries(startDate, _entries, holidays);
     }
 
     public IEnumerable<Week> Weeks { get; set; } = Array.Empty<Week>();

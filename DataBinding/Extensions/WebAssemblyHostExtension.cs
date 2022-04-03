@@ -14,8 +14,8 @@ public static class WebAssemblyHostExtension
         var result = await jsInterop.InvokeAsync<string>("blazorCulture.get");
 
         var culture = result is null
-        ? new CultureInfo("en-US")
-        : new CultureInfo(result);
+            ? new CultureInfo("en-US")
+            : new CultureInfo(result);
 
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;
