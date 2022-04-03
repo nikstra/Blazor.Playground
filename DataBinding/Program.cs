@@ -17,6 +17,7 @@ using DataBinding.Common;
 using System.Text.Json.Serialization;
 using DataBinding.Clients;
 using DataBinding.Extensions;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace DataBinding
 {
@@ -26,6 +27,8 @@ namespace DataBinding
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+            builder.RootComponents.Add<HeadOutlet>("head::after");
+            
             builder.Services.Configure<JsonSerializerOptions>(options =>
             {
                 options.Converters.Add(new DateOnlyJsonConverter());
