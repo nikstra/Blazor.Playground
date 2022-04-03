@@ -63,7 +63,7 @@ must have balanced opening and closing tags.
                 }
                 @if(count > EntryLimit)
                 {
-                    <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) more</div>
+                    <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) @Localizer[More]</div>
                 }
             </div>
         }
@@ -74,6 +74,7 @@ must have balanced opening and closing tags.
 @code {
     
     public const string Today = "today";
+    public const string More = "more";
 
     private const int EntryLimit = 3;
     private string GetFormattedMonthName(int month) =>

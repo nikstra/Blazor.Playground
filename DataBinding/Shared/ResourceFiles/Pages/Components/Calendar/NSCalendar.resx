@@ -121,4 +121,8 @@
     <value>Today</value>
     <comment/>
   </data>
+  <data name="more" xml:space="preserve">
+    <value>more</value>
+    <comment/>
+  </data>
 </root>

@@ -121,4 +121,8 @@
     <value>Idag</value>
     <comment/>
   </data>
+  <data name="more" xml:space="preserve">
+    <value>till</value>
+    <comment/>
+  </data>
 </root>
