@@ -198,10 +198,12 @@ must have balanced opening and closing tags.
         }
     }
 
-    public IEnumerable<string> WeekDays { get; set; } = GetWeekDays("sv-SE");
-    private static IEnumerable<string> GetWeekDays(string cultureName)
+    public IEnumerable<string> WeekDays { get; set; } = GetWeekDays();
+    private static IEnumerable<string> GetWeekDays(string cultureName = null)
     {
-        var culture = CultureInfo.CreateSpecificCulture(cultureName);
+        var culture = cultureName is null
+            ? Thread.CurrentThread.CurrentCulture
+            : CultureInfo.CreateSpecificCulture(cultureName);
         var formatInfo = culture.DateTimeFormat;
         var firstDayOfWeek = (int)formatInfo.FirstDayOfWeek;
         var firstDayOffset = 7 - firstDayOfWeek;
