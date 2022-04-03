@@ -20,6 +20,8 @@ namespace DataBinding.Services
 
         public async Task<IDictionary<DateOnly, PublicHolidayModel>> GetPublicHolidays(int year, string countryCode)
         {
+            // TODO: 2022-04-15 Good Friday is duplicated in source so we get an exception; "An item with the same key has already been added".
+            // Probably because it is a public holiday everywhere except US-TX where it is optional. Maybe use an ILookup here also?
             if(_holidays.TryGetValue((year, countryCode), out var holidaysMap))
             {
                 return holidaysMap;

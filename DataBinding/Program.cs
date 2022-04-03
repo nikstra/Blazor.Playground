@@ -16,6 +16,7 @@ using DataBinding.Interfaces;
 using DataBinding.Common;
 using System.Text.Json.Serialization;
 using DataBinding.Clients;
+using DataBinding.Extensions;
 
 namespace DataBinding
 {
@@ -37,8 +38,16 @@ namespace DataBinding
             builder.Services.AddHttpClient<HolidaysClient>();
             builder.Services.AddScoped<ICalendarService, CalendarService>();
             builder.Services.AddScoped<IHolidaysService, HolidaysService>();
+            builder.Services.AddLocalization(options=>
+            {
+                options.ResourcesPath = "Shared.ResourceFiles";
+            });
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+            
+            await host.SetDefaultCulture();
+
+            await host.RunAsync();
         }
     }
 }

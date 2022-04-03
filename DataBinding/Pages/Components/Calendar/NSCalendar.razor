@@ -2,9 +2,11 @@
 @using System.Linq
 @using DataBinding.Interfaces
 @using System.Threading
-
+@using DataBinding.Extensions
+    
 @inject ICalendarService CalendarService
 @inject IHolidaysService HolidaysService
+@inject IStringLocalizer<NSCalendar> Localizer
 
 @*
 Long lasting mystery solved, MarkupString is auto-closing tags.
@@ -17,19 +19,19 @@ must have balanced opening and closing tags.
 <div class="nscal">
   <div class="nscal-head">
     <div class="nscal-month">
-        <h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
+        <h3>@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(SelectedDate.Month).FirstCharToUpper() @SelectedDate.Year</h3>
     </div>
     <div class="nscal-nav nscal-year">
-        <button class="nscal-button-link" @onclick="GotoToday">Today</button>
+        <button class="nscal-button-link" @onclick="GotoToday">@Localizer[Today]</button>
     </div>
-    <div class="nscal-nav nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month)</button></div>
-    <div class="nscal-nav nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month) <div class="triangle-right"></div></button></div>
+    <div class="nscal-nav nscal-prev"><button class="nscal-button-link" @onclick="GotoPrevious"><div class="triangle-left"></div> @Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(PreviousMonth.Month).FirstCharToUpper()</button></div>
+    <div class="nscal-nav nscal-next"><button class="nscal-button-link" @onclick="GotoNext">@Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(NextMonth.Month).FirstCharToUpper() <div class="triangle-right"></div></button></div>
   </div>
   <div class="nscal-body">
     <div class="nscal-week-item"></div>
     @foreach (var day in WeekDays)
     {
-        <div class="nscal-week-head">@day</div>
+        <div class="nscal-week-head">@day.FirstCharToUpper()</div>
     }
 
     @foreach (var week in Weeks)
@@ -59,6 +61,8 @@ must have balanced opening and closing tags.
 
 @code {
     
+    public const string Today = "today";
+
     private const int EntryLimit = 3;
 
     [Parameter]
@@ -151,7 +155,9 @@ must have balanced opening and closing tags.
     {
         var entries = (await CalendarService.GetEntriesAsync(SelectedDate))
             .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
-        var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, "se");
+
+        var region = new RegionInfo(Thread.CurrentThread.CurrentCulture.LCID);
+        var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, region.TwoLetterISORegionName);
 
         var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
         Weeks = GetDaysWithEntries(startDate, entries, holidays);
@@ -164,12 +170,12 @@ must have balanced opening and closing tags.
         ILookup<DateOnly, CalendarEntry> entries,
         IDictionary<DateOnly, PublicHolidayModel> holidays)
     {
-        var culture = CultureInfo.CreateSpecificCulture("sv-SE");
+        //var culture = CultureInfo.CreateSpecificCulture("sv-SE");
         //var culture = CultureInfo.CreateSpecificCulture("en-US");
 
-        Thread.CurrentThread.CurrentCulture = culture;
-        Thread.CurrentThread.CurrentUICulture = culture;
-
+        //Thread.CurrentThread.CurrentCulture = culture;
+        //Thread.CurrentThread.CurrentUICulture = culture;
+        var culture = Thread.CurrentThread.CurrentCulture;
         var firstDayOfWeek = culture.DateTimeFormat.FirstDayOfWeek;
         var firstDayInMonth = startDate;
         var calendarStartDay = -(7 + firstDayInMonth.DayOfWeek - firstDayOfWeek) % 7;
