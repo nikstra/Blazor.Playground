@@ -56,7 +56,10 @@ must have balanced opening and closing tags.
                 @{ var count = day.Entries.Count(); }
                 @foreach (var entry in day.Entries.Take(EntryLimit))
                 {
-                    <div class="nscal-entry nscal-normal-text">@entry.Name</div>
+                    <div class="nscal-entry nscal-normal-text">
+                        @entry.Start.ToString("HH:mm")
+                        @entry.Name
+                        (@entry.Duration.ToString(@"hh\:mm"))</div>
                 }
                 @if(count > EntryLimit)
                 {
@@ -205,7 +208,7 @@ must have balanced opening and closing tags.
                 {
                     DayNumber = dayIndex.Day,
                     Date = dayIndex,
-                    Entries = entries[dayIndex],
+                    Entries = entries[dayIndex].OrderBy(e => e.Start),
                     Name = culture.DateTimeFormat.DayNames[(int)dayIndex.DayOfWeek],
                     // TODO: There can be more than one holiday for a given date. Just grab the first one for now.
                     Holiday = holidays[dayIndex]?.FirstOrDefault()
