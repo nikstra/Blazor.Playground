@@ -57,9 +57,9 @@ must have balanced opening and closing tags.
                 @foreach (var entry in day.Entries.Take(EntryLimit))
                 {
                     <div class="nscal-entry nscal-normal-text">
-                        @entry.Start.ToString("HH:mm")
+                        @GetLocalTimeString(entry.Start)
                         @entry.Name
-                        (@entry.Duration.ToString(@"hh\:mm"))</div>
+                        (@entry.Duration.ToString("g"))</div>
                 }
                 @if(count > EntryLimit)
                 {
@@ -78,6 +78,8 @@ must have balanced opening and closing tags.
     private const int EntryLimit = 3;
     private string GetFormattedMonthName(int month) =>
         Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(month).FirstCharToUpper();
+    private string GetLocalTimeString(DateTimeOffset date) =>
+        date.ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern);
 
     [Parameter]
     public DateOnly SelectedDate
