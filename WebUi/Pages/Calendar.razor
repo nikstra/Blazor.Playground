@@ -1,0 +1,26 @@
+﻿@page "/Calendar/{year:int?}/{month:int?}"
+
+@using WebUi.Pages.Components.Calendar
+
+@* <h3>Calendar</h3> *@
+
+<NSCalendar SelectedDate="@GetSelectedDate()" />
+
+@code {
+
+    [Parameter]
+    public int? Year { get; set; }
+
+    [Parameter]
+    public int? Month { get; set; }
+
+    private DateOnly GetSelectedDate()
+    {
+        if(Year is int year && Month is int month)
+        {
+            return new DateOnly(year, month, 1);
+        }
+
+        return DateOnly.FromDateTime(DateTime.Now);
+    }
+}
