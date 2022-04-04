@@ -2,12 +2,11 @@
   "cacheBootResources": true,
   "config": [ ],
   "debugBuild": false,
-  "entryAssembly": "DataBinding",
+  "entryAssembly": "WebUi",
   "icuDataMode": 1,
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "DataBinding.dll": "sha256-8Lkmu8ttDb09JKOqq0orOMKCKUmgulBg6GTjvK5AJbI=",
       "Microsoft.AspNetCore.Components.dll": "sha256-uTaSMMOmAuMLfwlm6whN5WrJn9uzNfyvd9n4+6jvMOg=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-+6mS1xoI1mJUycF\/fAizjWHV2PlF8+\/JEeFKPUgS074=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-HMV+UaT3TOl6LdFI8JqngEgA\/BuD3P0gQj4cMnWm\/lQ=",
@@ -48,7 +47,8 @@
       "System.Text.Encodings.Web.dll": "sha256-I9H\/oBAXuKgbDZypJILfJASFnsQSvLdkNo\/vOKDBXBY=",
       "System.Text.Json.dll": "sha256-n7NLm4ixzua5eEcdy9xrB8sKf+ja1unsoYeGELohZN0=",
       "System.Threading.dll": "sha256-B1OibMfJMaGZNKmwii1XIqMjE96YzKoUeGN12hu5\/OU=",
-      "System.Threading.Thread.dll": "sha256-DF2WTv7cAYwOVUuGzBrmLwq9YIFjFaDgkMQuXqsULj8="
+      "System.Threading.Thread.dll": "sha256-DF2WTv7cAYwOVUuGzBrmLwq9YIFjFaDgkMQuXqsULj8=",
+      "WebUi.dll": "sha256-sCya0c06JzcYS+ECKio\/DBn5btmSf86G+BDg8Zeuvfg="
     },
     "extensions": null,
     "lazyAssembly": null,
@@ -65,7 +65,7 @@
     },
     "satelliteResources": {
       "sv": {
-        "sv\/DataBinding.resources.dll": "sha256-JgQ5Aq1wzhl03FXRoHS0TgOgPSp85vcDnutaa6BkEOg="
+        "sv\/WebUi.resources.dll": "sha256-ZTtFsVxA099Qo\/DQz3a7jdOwXQ5tH4962DZhlBMd60Q="
       }
     }
   }
