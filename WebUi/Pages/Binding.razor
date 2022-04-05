@@ -1,0 +1,62 @@
+﻿@page "/binding"
+
+<h3>Binding</h3>
+
+<div class="select-container">
+    <div id="left-column">
+        <div>@LeftDataSelected</div>
+        <select @bind="LeftDataSelected" size="5">
+            <option hidden></option>
+            @foreach (var item in LeftData)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+    <div id="button-column">
+        <button @onclick="OnMoveLeft">&lt;</button>
+        <button @onclick="OnMoveRight">&gt;</button>
+    </div>
+    <div id="right-column">
+        <div>@RightDataSelected</div>
+        <select @bind="RightDataSelected" size="5">
+            <option hidden></option>
+            @foreach (var item in RightData)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+</div>
+
+@code {
+    void OnMoveLeft()
+    {
+        var item = RightData.FirstOrDefault();
+        if(RightData.Remove(item))
+        {
+            LeftData.Add(item);
+        }
+    }
+    void OnMoveRight()
+    {
+        var item = LeftData.FirstOrDefault();
+        if(LeftData.Remove(item))
+        {
+            RightData.Add(item);
+        }
+    }
+
+    string LeftDataSelected { get; set; } = "four";
+    List<string> LeftData = new();
+
+    string RightDataSelected { get; set; } = "two";
+    List<string> RightData = new()
+        {
+            "one",
+            "two",
+            "three",
+            "four",
+            "five"
+        };
+}

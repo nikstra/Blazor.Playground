@@ -1,0 +1,27 @@
+select {
+    height: 14vh;
+    width: 12vw;
+}
+
+.select-container {
+    display: grid;
+    grid-template-areas: "left center right";
+    grid-template-columns: auto 4vw auto;
+    justify-content: center;
+    width: 30vw;
+}
+
+#left-column {
+    grid-area: left;
+}
+
+#button-column {
+    align-self: center;
+    grid-area: center;
+    justify-self: center;
+    text-align: center;
+}
+
+#right-column {
+    grid-area: right;
+}
