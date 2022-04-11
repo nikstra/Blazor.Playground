@@ -2,11 +2,15 @@
 
 @using WebUi.Pages.Components.Calendar
 
-@* <h3>Calendar</h3> *@
+@inject IStringLocalizer<Calendar> Localize
+
+<PageTitle>@Localize[CalendarPageTitle]</PageTitle>
 
 <NSCalendar SelectedDate="@GetSelectedDate()" />
 
 @code {
+
+    public const string CalendarPageTitle = "Calendar";
 
     [Parameter]
     public int? Year { get; set; }
