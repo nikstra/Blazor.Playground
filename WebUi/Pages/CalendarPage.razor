@@ -1,12 +1,12 @@
 ﻿@page "/Calendar/{year:int?}/{month:int?}"
 
-@using WebUi.Pages.Components.Calendar
+@using WebUi.Components.Calendar
 
-@inject IStringLocalizer<Calendar> Localize
+@inject IStringLocalizer<CalendarPage> Localize
 
 <PageTitle>@Localize[CalendarPageTitle]</PageTitle>
 
-<NSCalendar SelectedDate="@GetSelectedDate()" />
+<NSCalendarComponent SelectedDate="@GetSelectedDate()" />
 
 @code {
 

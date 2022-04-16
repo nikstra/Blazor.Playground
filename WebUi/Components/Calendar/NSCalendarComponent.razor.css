@@ -151,6 +151,11 @@ div.today {
   padding: 0.1em;
 }
 
+.nscal-text-nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 /* Animations */
 
 .today.pulse {

@@ -1,0 +1,63 @@
+﻿@using WebUi.Extensions
+
+@*
+Long lasting mystery solved, MarkupString is auto-closing tags.
+https://stackoverflow.com/a/68052032
+
+I. e. non of the if statements that are trying to close and open tr tags will work. The whole MarkupString
+must have balanced opening and closing tags.
+*@
+
+<div class="nscal">
+  <div class="nscal-head">
+    <div class="nscal-month">
+        <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
+    </div>
+    <div class="nscal-nav nscal-year">
+        <button class="nscal-button-link" @onclick="GotoToday">@Localizer[Today]</button>
+    </div>
+    <div class="nscal-nav nscal-prev">
+        <button class="nscal-button-link" @onclick="GotoPrevious">
+            <div class="triangle-left"></div> @GetFormattedMonthName(PreviousMonth.Month)
+        </button>
+    </div>
+    <div class="nscal-nav nscal-next">
+        <button class="nscal-button-link" @onclick="GotoNext">
+            @GetFormattedMonthName(NextMonth.Month) <div class="triangle-right"></div>
+        </button>
+    </div>
+  </div>
+  <div class="nscal-body">
+    <div class="nscal-week-item"></div>
+    @foreach (var day in WeekDays)
+    {
+        <div class="nscal-week-head">@day.FirstCharToUpper()</div>
+    }
+
+    @foreach (var week in Weeks)
+    {
+        <div class="nscal-week-item">@week.WeekNumber</div>
+        @foreach(var day in week?.Days)
+        {
+            <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
+                <div class="nscal-day-head@((day.Holiday == null ? string.Empty : " holiday"))">
+                    <div class="nscal-normal-text nscal-text-left nscal-text-nowrap">@day.Holiday?.LocalName</div>
+                    <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
+                </div>
+                @{ var count = day.Entries.Count(); }
+                @foreach (var entry in day.Entries.Take(EntryLimit))
+                {
+                    <div class="nscal-entry nscal-normal-text nscal-text-nowrap">
+                        @GetLocalTimeString(entry.Start)
+                        @entry.Name
+                        (@entry.Duration.ToString("g"))</div>
+                }
+                @if(count > EntryLimit)
+                {
+                    <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) @Localizer[More]</div>
+                }
+            </div>
+        }
+    }
+  </div>
+</div>
