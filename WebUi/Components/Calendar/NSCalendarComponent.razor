@@ -8,7 +8,7 @@ I. e. non of the if statements that are trying to close and open tr tags will wo
 must have balanced opening and closing tags.
 *@
 
-<div class="nscal">
+<div class="nscal" @onclick="@(() => _showEntries = false)">
   <div class="nscal-head">
     <div class="nscal-month">
         <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
@@ -41,21 +41,15 @@ must have balanced opening and closing tags.
         {
             <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
                 <div class="nscal-day-head@((day.Holiday == null ? string.Empty : " holiday"))">
-                    <div class="nscal-normal-text nscal-text-left nscal-text-nowrap">@day.Holiday?.LocalName</div>
-                    <div class="nscal-large-text nscal-text-right">@day.DayNumber</div>
+                    <div class="nscal-day-head-holiday nscal-normal-text nscal-text-left nscal-text-nowrap">@day.Holiday?.LocalName</div>
+                    <div class="nscal-day-head-day nscal-large-text nscal-text-right">@day.DayNumber</div>
                 </div>
-                @{ var count = day.Entries.Count(); }
-                @foreach (var entry in day.Entries.Take(EntryLimit))
-                {
-                    <div class="nscal-entry nscal-normal-text nscal-text-nowrap">
-                        @GetLocalTimeString(entry.Start)
-                        @entry.Name
-                        (@entry.Duration.ToString("g"))</div>
-                }
-                @if(count > EntryLimit)
-                {
-                    <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) @Localizer[More]</div>
-                }
+                <NSCalendarEntriesComponent
+                    Day="@day"
+                    EntryLimit="@EntryLimit"
+                    Localizer="@Localizer"
+                    ShowEntries="@_showEntries"
+                />
             </div>
         }
     }

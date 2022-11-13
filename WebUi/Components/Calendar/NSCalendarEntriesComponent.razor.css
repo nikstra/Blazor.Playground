@@ -1,0 +1,6 @@
+/*
+Styles are defined in parent component's css. A custom CssScope is defined in the csproj file.
+<ItemGroup>
+  <None Update="Components/Calendar/*.razor.css" CssScope="calendar-scope" />
+</ItemGroup>
+*/

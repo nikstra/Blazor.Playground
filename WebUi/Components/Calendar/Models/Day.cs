@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using WebUi.Models;
 
-namespace WebUi.Models
+namespace WebUi.Components.Calendar.Models
 {
     public class Day
     {

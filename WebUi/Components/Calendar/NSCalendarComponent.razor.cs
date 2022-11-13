@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
+using WebUi.Components.Calendar.Models;
 using WebUi.Extensions;
 using WebUi.Interfaces;
 using WebUi.Models;
@@ -16,23 +17,20 @@ namespace WebUi.Components.Calendar
 {
     public partial class NSCalendarComponent
     {
+        private const int EntryLimit = 3;
         public const string Today = "today";
         public const string More = "more";
 
-        private const int EntryLimit = 3;
-
-        [Inject] ICalendarService CalendarService { get; set; }
-        [Inject] IHolidaysService HolidaysService { get; set; }
-        [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
-        [Inject] IJSRuntime JsRuntime { get; set; }
-
-        private string GetFormattedMonthName(int month) =>
-            Thread.CurrentThread.CurrentCulture.DateTimeFormat.GetMonthName(month).FirstCharToUpper();
-        private string GetLocalTimeString(DateTimeOffset date) =>
-            date.ToString(Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern);
-
-        [Parameter]
-        public DateOnly SelectedDate
+        private static Timer _timer;
+        private string _todayPulse;
+        private bool _showEntries;
+        private ILookup<DateOnly, CalendarEntry> _entries;
+        private IEnumerable<Week> Weeks { get; set; } = Array.Empty<Week>();
+        private IEnumerable<string> WeekDays { get; set; } = GetLocalizedDayNames();
+        private DateOnly PreviousMonth { get; set; }
+        private DateOnly NextMonth { get; set; }
+        private DateOnly _selectedDate = DateOnly.FromDateTime(DateTime.Now);
+        [Parameter] public DateOnly SelectedDate
         {
             get => _selectedDate;
             set
@@ -42,12 +40,33 @@ namespace WebUi.Components.Calendar
                 _selectedDate = value;
             }
         }
-        private DateOnly _selectedDate = DateOnly.FromDateTime(DateTime.Now);
-        public DateOnly PreviousMonth { get; set; }
-        public DateOnly NextMonth { get; set; }
+
+        [Inject] ICalendarService CalendarService { get; set; }
+        [Inject] IHolidaysService HolidaysService { get; set; }
+        [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
+        [Inject] IJSRuntime JsRuntime { get; set; }
+
+        protected async override Task OnInitializedAsync()
+        {
+            await LoadCalendar();
+            await base.OnInitializedAsync();
+        }
+
+        private async Task LoadCalendar()
+        {
+            _entries = (await CalendarService.GetEntriesAsync(SelectedDate))
+                .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
+
+            var region = new RegionInfo(CultureInfo.CurrentCulture.LCID);
+            var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, region.TwoLetterISORegionName);
+
+            var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
+            Weeks = GetDaysWithEntries(startDate, _entries, holidays);
+        }
+
+        private string GetFormattedMonthName(int month) =>
+            CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(month).FirstCharToUpper();
         
-        private static System.Timers.Timer _timer;
-        public string _todayPulse;
         private void RunPulseTodayAnimation()
         {
             if(_timer is not null)
@@ -85,11 +104,13 @@ namespace WebUi.Components.Calendar
             SelectedDate = PreviousMonth;
             await LoadCalendar();
         }
+
         private async Task GotoNext()
         {
             SelectedDate = NextMonth;
             await LoadCalendar();
         }
+
         private void ShowDetails(DateOnly date, MouseEventArgs eventArgs)
         {
             var dayEntries = _entries[date];
@@ -100,7 +121,7 @@ namespace WebUi.Components.Calendar
             // TODO: Add a details view.
             var texts = dayEntries.Select(e => $"{e.Start} {e.Duration} {e.Name}");
 
-            JsRuntime.InvokeVoidAsync("alert", "CALENDAR ENTRIES" + Environment.NewLine + string.Join(Environment.NewLine, texts));
+            // JsRuntime.InvokeVoidAsync("alert", "CALENDAR ENTRIES" + Environment.NewLine + string.Join(Environment.NewLine, texts));
         }
 
         private string GetCssClass(DateOnly date)
@@ -117,40 +138,17 @@ namespace WebUi.Components.Calendar
             return string.Empty;
         }
 
-        protected async override Task OnInitializedAsync()
-        {
-            await LoadCalendar();
-            await base.OnInitializedAsync();
-        }
-
-        private ILookup<DateOnly, CalendarEntry> _entries;
-        private async Task LoadCalendar()
-        {
-            _entries = (await CalendarService.GetEntriesAsync(SelectedDate))
-                .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
-
-            var region = new RegionInfo(Thread.CurrentThread.CurrentCulture.LCID);
-            var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, region.TwoLetterISORegionName);
-
-            var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
-            Weeks = GetDaysWithEntries(startDate, _entries, holidays);
-        }
-
-        public IEnumerable<Week> Weeks { get; set; } = Array.Empty<Week>();
-
-        private IEnumerable<Week> GetDaysWithEntries(
+        private static IEnumerable<Week> GetDaysWithEntries(
             DateOnly startDate,
             ILookup<DateOnly, CalendarEntry> entries,
             ILookup<DateOnly, PublicHolidayModel> holidays)
         {
-            var culture = Thread.CurrentThread.CurrentCulture;
+            var culture = CultureInfo.CurrentCulture;
             var firstDayOfWeek = culture.DateTimeFormat.FirstDayOfWeek;
             var firstDayInMonth = startDate;
             var calendarStartDay = -(7 + firstDayInMonth.DayOfWeek - firstDayOfWeek) % 7;
 
-            var uiStartDay = firstDayInMonth.AddDays(calendarStartDay);
-
-            var dayIndex = uiStartDay;
+            var dayIndex = firstDayInMonth.AddDays(calendarStartDay);
             while(dayIndex < firstDayInMonth.AddMonths(1))
             {
                 var week = new Day[7];
@@ -168,30 +166,27 @@ namespace WebUi.Components.Calendar
                     dayIndex = dayIndex.AddDays(1);
                 }
                 
-                var weekNumber = culture.Calendar.GetWeekOfYear(
-                    week[0].Date.ToDateTime(TimeOnly.MaxValue),
-                    culture.DateTimeFormat.CalendarWeekRule,
-                    firstDayOfWeek);
+                var weekNumber = GetWeekNumber(week[0].Date);
 
                 yield return new Week { Days = week, WeekNumber = weekNumber };
             }
         }
 
-        public IEnumerable<string> WeekDays { get; set; } = GetWeekDays();
-        private static IEnumerable<string> GetWeekDays(string cultureName = null)
+        private static int GetWeekNumber(DateOnly date) =>
+            CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(
+                date.ToDateTime(TimeOnly.MaxValue),
+                CultureInfo.CurrentCulture.DateTimeFormat.CalendarWeekRule,
+                CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek);
+
+        private static IEnumerable<string> GetLocalizedDayNames()
         {
-            var culture = cultureName is null
-                ? Thread.CurrentThread.CurrentCulture
-                : CultureInfo.CreateSpecificCulture(cultureName);
-            var formatInfo = culture.DateTimeFormat;
+            var formatInfo = CultureInfo.CurrentCulture.DateTimeFormat;
             var firstDayOfWeek = (int)formatInfo.FirstDayOfWeek;
-            var firstDayOffset = 7 - firstDayOfWeek;
 
-            var namesShifted = new string[formatInfo.DayNames.Length];
-            Array.Copy(formatInfo.DayNames, firstDayOfWeek, namesShifted, 0, firstDayOffset);
-            Array.Copy(formatInfo.DayNames, 0, namesShifted, firstDayOffset, firstDayOfWeek);
-
-            return namesShifted;
+            for(var i = 0; i < 7; i++)
+            {
+                yield return formatInfo.DayNames[(i + firstDayOfWeek) % 7];
+            }
         }
     }
 }

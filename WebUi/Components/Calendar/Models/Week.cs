@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WebUi.Models
+namespace WebUi.Components.Calendar.Models
 {
     public class Week
     {

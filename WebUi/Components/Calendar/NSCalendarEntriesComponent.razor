@@ -1,0 +1,56 @@
+﻿@using Models
+@using System.Globalization
+
+@if(Day.Entries.Any())
+{
+    <div class="nscal-entries-container" @onclick="OnClick" @onclick:stopPropagation="true">
+        @{
+            if(ShowEntries)
+            {
+                <div style="@($"position: absolute; border: 1px solid black; top: {@top}px; left: ${left}px; z-index: 1;")">
+                    Details
+                </div>
+            }
+
+            foreach (var entry in Day.Entries.Take(EntryLimit))
+            {
+                <div class="nscal-entry nscal-normal-text nscal-text-nowrap">
+                    @GetLocalTimeString(entry.Start)
+                    @entry.Name
+                    (@entry.Duration.ToString("g"))
+                </div>
+            }
+
+            var count = Day.Entries.Count();
+            if(count > EntryLimit)
+            {
+                <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) @Localizer[NSCalendarComponent.More]</div>
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="nscal-entries-container"></div>
+}
+
+@code {
+    double top = 0;
+    double left = 0;
+    [Parameter] public int EntryLimit { get; set; }
+    [Parameter] public Day Day { get; set; }
+    [Parameter] public IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
+    [Parameter] public bool ShowEntries  { get; set; }
+
+    private void OnClick(MouseEventArgs eventArgs)
+    {
+        ShowEntries = false;
+        left = eventArgs.ClientX - eventArgs.OffsetX;
+        top = eventArgs.ClientY - eventArgs.OffsetY;
+        Console.WriteLine(eventArgs.OffsetX);
+        ShowEntries = true;
+    }
+
+    private string GetLocalTimeString(DateTimeOffset date) =>
+        date.ToString(CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern);
+}
