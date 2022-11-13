@@ -1,5 +1,5 @@
 div.today {
-  outline: 3px solid palegreen;
+  border: 3px solid seagreen;
 }
 
 .holiday {
@@ -12,18 +12,18 @@ div.today {
 }
 
 .triangle-left {
-  border-bottom: 0.4em solid transparent;
-  border-right: 1em solid #0056b3;
-  border-top: 0.4em solid transparent;
+  border-bottom: 0.4rem solid transparent;
+  border-right: 1rem solid #0056b3;
+  border-top: 0.4rem solid transparent;
   display: inline-block;
   height: 0;
   width: 0;
 }
 
 .triangle-right {
-  border-bottom: 0.4em solid transparent;
-  border-left: 1em solid #0056b3;
-  border-top: 0.4em solid transparent;
+  border-bottom: 0.4rem solid transparent;
+  border-left: 1rem solid #0056b3;
+  border-top: 0.4rem solid transparent;
   display: inline-block;
   height: 0;
   width: 0;
@@ -38,7 +38,6 @@ div.today {
     "calhead"
     "calbody";
   grid-template-rows: auto-fit auto;
-  /*height: 100vh; /*90vh;*/ /* This seems to affect how nscal-body template-rows are handled. I WANT THE GRID TO GROW HORIZONTALLY! */
   line-height: normal;
   min-width: 50em;
   padding: 10px;
@@ -128,10 +127,10 @@ div.today {
   /* grid-template-rows: minmax(0, 2fr) repeat(4, minmax(0, 1fr)); */
   /* grid-template-rows: minmax(0, 1fr) minmax(0, 2fr); */
   justify-items: stretch;
-  padding: 5px;
-/* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
-  overflow-y: hidden;
   min-width: 0;
+  overflow-y: hidden;
+  padding: 5px;
+  /* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
   /*height: 12vh; /* day-items overlap when resized */
   /* min-height: 6em; */
 }
@@ -144,7 +143,7 @@ div.today {
 
 .nscal-normal-text {
   display: inline-block;
-  font-size: 0.8em;
+  font-size: 0.75em;
 }
 
 .nscal-text-right {
@@ -156,13 +155,13 @@ div.today {
 }
 
 .nscal-day-head {
-  justify-items: stretch;
   display: grid;
   gap: 0 0;
   grid-template-areas: "holiday day";
   grid-template-columns: minmax(0, 5fr) 1fr;
   grid-template-rows: 1fr;
   height: 2em;
+  justify-items: stretch;
 }
 
 .nscal-day-head-holiday {
@@ -180,8 +179,7 @@ div.today {
   grid-row: 2 / 5;
   grid-template-columns: 100%;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  height: 10vh;
-  min-height: 6em;
+  min-height: 4.8rem; /* A container with no entries must be the same height as one with entries. */
 }
 
 .nscal-entry {
@@ -189,7 +187,7 @@ div.today {
   border-radius: 3px;
   cursor: default;
   margin: 1px;
-  padding: 0.1em;
+  padding: 0.1rem;
 }
 
 .nscal-text-nowrap {
@@ -206,7 +204,7 @@ div.today {
 
 @keyframes pulse {
  from {
-  background: palegreen;
+  background: seagreen;
  }
  to {
    background: inherit;
