@@ -154,6 +154,11 @@ div.today {
   text-align: left;
 }
 
+.nscal-float-right {
+  float: right;
+  /* text-align: right; */
+}
+
 .nscal-day-head {
   display: grid;
   gap: 0 0;
