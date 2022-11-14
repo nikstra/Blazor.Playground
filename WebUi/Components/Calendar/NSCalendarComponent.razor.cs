@@ -41,8 +41,7 @@ namespace WebUi.Components.Calendar
             }
         }
 
-        [Inject] ICalendarService CalendarService { get; set; }
-        [Inject] IHolidaysService HolidaysService { get; set; }
+        [Inject] ICalendarProvider CalendarProvider { get; set; }
         [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
         [Inject] IJSRuntime JsRuntime { get; set; }
 
@@ -54,14 +53,11 @@ namespace WebUi.Components.Calendar
 
         private async Task LoadCalendar()
         {
-            _entries = (await CalendarService.GetEntriesAsync(SelectedDate))
-                .ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
-
-            var region = new RegionInfo(CultureInfo.CurrentCulture.LCID);
-            var holidays = await HolidaysService.GetPublicHolidays(SelectedDate.Year, region.TwoLetterISORegionName);
+            var calendarModel = await CalendarProvider.GetAsync(SelectedDate);
+            _entries = calendarModel.Entries.ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
 
             var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
-            Weeks = GetDaysWithEntries(startDate, _entries, holidays);
+            Weeks = GetDaysWithEntries(startDate, _entries, calendarModel.Holidays);
         }
 
         private string GetFormattedMonthName(int month) =>

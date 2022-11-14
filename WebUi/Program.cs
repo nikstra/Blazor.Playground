@@ -41,6 +41,7 @@ namespace WebUi
             builder.Services.AddHttpClient<HolidaysClient>();
             builder.Services.AddScoped<ICalendarService, CalendarService>();
             builder.Services.AddScoped<IHolidaysService, HolidaysService>();
+            builder.Services.AddScoped<ICalendarProvider, CalendarProvider>();
             builder.Services.AddLocalization(options=>
             {
                 options.ResourcesPath = "Shared.ResourceFiles";
