@@ -155,6 +155,11 @@ div.today[calendar-scope] {
   text-align: left;
 }
 
+.nscal-float-right[calendar-scope] {
+  float: right;
+  /* text-align: right; */
+}
+
 .nscal-day-head[calendar-scope] {
   display: grid;
   gap: 0 0;
