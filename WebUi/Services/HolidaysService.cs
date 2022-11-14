@@ -18,7 +18,7 @@ namespace WebUi.Services
             _httpClient = client;
         }
 
-        public async Task<ILookup<DateOnly, PublicHolidayModel>> GetPublicHolidays(int year, string countryCode)
+        public async Task<ILookup<DateOnly, PublicHolidayModel>> GetPublicHolidaysAsync(int year, string countryCode)
         {
             if(_holidays.TryGetValue((year, countryCode), out var holidaysMap))
             {

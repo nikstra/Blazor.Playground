@@ -22,7 +22,7 @@ namespace WebUi.Services
         {
             var entries = await _calendarService.GetEntriesAsync(selectedDate);
             var region = new RegionInfo(CultureInfo.CurrentCulture.LCID);
-            var holidays = await _holidaysService.GetPublicHolidays(selectedDate.Year, region.TwoLetterISORegionName);
+            var holidays = await _holidaysService.GetPublicHolidaysAsync(selectedDate.Year, region.TwoLetterISORegionName);
 
             return new CalendarModel(entries, holidays);
         }

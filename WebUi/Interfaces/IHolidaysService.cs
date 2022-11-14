@@ -7,6 +7,6 @@ namespace WebUi.Interfaces
 {
     public interface IHolidaysService
     {
-        Task<ILookup<DateOnly, PublicHolidayModel>> GetPublicHolidays(int year, string countryCode);
+        Task<ILookup<DateOnly, PublicHolidayModel>> GetPublicHolidaysAsync(int year, string countryCode);
     }
 }
