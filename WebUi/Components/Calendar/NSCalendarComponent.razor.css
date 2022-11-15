@@ -116,7 +116,10 @@ div.today {
 }
 
 .nscal-week-item {
-  vertical-align: middle;
+  border: 1px solid lightgrey;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
 }
 
 .nscal-day-item {
