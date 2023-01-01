@@ -18,12 +18,12 @@ must have balanced opening and closing tags.
     </div>
     <div class="nscal-nav nscal-prev">
         <button class="nscal-button-link" @onclick="GotoPrevious">
-            <div class="triangle-left"></div> @GetFormattedMonthName(PreviousMonth.Month)
+            &#x25C4; @* Black Left-Pointing Pointer *@ @GetFormattedMonthName(PreviousMonth.Month)
         </button>
     </div>
     <div class="nscal-nav nscal-next">
         <button class="nscal-button-link" @onclick="GotoNext">
-            @GetFormattedMonthName(NextMonth.Month) <div class="triangle-right"></div>
+            @GetFormattedMonthName(NextMonth.Month) &#x25BA; @* Black Right-Pointing Pointer *@
         </button>
     </div>
   </div>

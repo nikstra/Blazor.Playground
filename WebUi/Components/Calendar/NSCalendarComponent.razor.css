@@ -11,24 +11,6 @@ div.today {
   color: gray;
 }
 
-.triangle-left {
-  border-bottom: 0.4rem solid transparent;
-  border-right: 1rem solid #0056b3;
-  border-top: 0.4rem solid transparent;
-  display: inline-block;
-  height: 0;
-  width: 0;
-}
-
-.triangle-right {
-  border-bottom: 0.4rem solid transparent;
-  border-left: 1rem solid #0056b3;
-  border-top: 0.4rem solid transparent;
-  display: inline-block;
-  height: 0;
-  width: 0;
-}
-
 /* CSS Grid */
 
 .nscal {
