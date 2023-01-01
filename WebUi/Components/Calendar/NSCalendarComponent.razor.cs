@@ -156,8 +156,7 @@ namespace WebUi.Components.Calendar
                         Date = dayIndex,
                         Entries = entries[dayIndex].OrderBy(e => e.Start),
                         Name = culture.DateTimeFormat.DayNames[(int)dayIndex.DayOfWeek],
-                        // TODO: There can be more than one holiday for a given date. Just grab the first one for now.
-                        Holiday = holidays[dayIndex]?.FirstOrDefault()
+                        Holidays = holidays[dayIndex]
                     };
                     dayIndex = dayIndex.AddDays(1);
                 }

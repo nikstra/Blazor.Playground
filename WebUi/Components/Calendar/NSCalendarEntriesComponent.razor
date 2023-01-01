@@ -14,10 +14,9 @@
 
             foreach (var entry in Day.Entries.Take(EntryLimit))
             {
-                <div class="nscal-entry nscal-normal-text nscal-text-nowrap">
-                    @GetLocalTimeString(entry.Start),
-                    @entry.Name
-                    <span class="nscal-text-right nscal-float-right">(@entry.DurationString)</span>
+                <div class="nscal-entry">
+                    <span class="nscal-entry-text nscal-text-nowrap">@GetLocalTimeString(entry.Start), @entry.Name</span>
+                    <span class="nscal-entry-duration nscal-text-nowrap"> (@entry.DurationString)</span>
                 </div>
             }
 

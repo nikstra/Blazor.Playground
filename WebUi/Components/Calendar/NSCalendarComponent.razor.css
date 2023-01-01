@@ -38,7 +38,7 @@ div.today {
     "calhead"
     "calbody";
   grid-template-rows: auto-fit auto;
-  line-height: normal;
+  /* line-height: 1.2; */
   min-width: 50em;
   padding: 10px;
   width: 100%;
@@ -60,7 +60,7 @@ div.today {
 }
 
 .nscal-month h3 {
-  font-size: 1.2em;
+  font-size: 1.2rem;
 }
 
 .nscal-nav {
@@ -104,15 +104,17 @@ div.today {
   grid-template-columns: 3ch repeat(7, minmax(6rem, 1fr));
   grid-template-rows: 2em repeat(auto-fill, minmax(12vh, minmax(0, 1fr)));
   /* grid-template-rows: 2em repeat(auto-fill, minmax(10em, 1fr)); */
-/* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
+  /* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
   /* min-height: 50em; */
   min-width: 0;
 }
 
 .nscal-week-head {
+  align-items: center;
   border: 1px solid lightgrey;
-  line-height: 2em;
-  text-align: center;
+  display: flex;
+  height: 2em;
+  justify-content: center;
 }
 
 .nscal-week-item {
@@ -127,6 +129,7 @@ div.today {
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: minmax(0, 1fr) minmax(0, 2fr);
+  height: 7.5em;
   /* grid-template-rows: minmax(0, 2fr) repeat(4, minmax(0, 1fr)); */
   /* grid-template-rows: minmax(0, 1fr) minmax(0, 2fr); */
   justify-items: stretch;
@@ -140,13 +143,13 @@ div.today {
 
 .nscal-large-text {
   display: inline-block;
-  font-size: 1em;
+  font-size: 1rem;
   padding-left: auto;
 }
 
 .nscal-normal-text {
   display: inline-block;
-  font-size: 0.75em;
+  font-size: 0.75rem;
 }
 
 .nscal-text-right {
@@ -157,24 +160,30 @@ div.today {
   text-align: left;
 }
 
-.nscal-float-right {
-  float: right;
-  /* text-align: right; */
-}
-
 .nscal-day-head {
   display: grid;
   gap: 0 0;
   grid-template-areas: "holiday day";
   grid-template-columns: minmax(0, 5fr) 1fr;
   grid-template-rows: 1fr;
-  height: 2em;
+  height: 2.4em;
   justify-items: stretch;
 }
 
 .nscal-day-head-holiday {
   grid-area: holiday;
-  justify-self: stretch;
+  height: 2.4em;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.nscal-day-head-holiday:hover {
+  overflow: visible;
+}
+
+.nscal-day-head-holiday:hover ul {
+  position: relative;
+  z-index: 1;
 }
 
 .nscal-day-head-day {
@@ -182,20 +191,66 @@ div.today {
   justify-self: stretch;
 }
 
+ul.nscal-holiday-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul.nscal-holiday-list>li {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.4ch;
+}
+
+ul.nscal-holiday-list-indicator> :first-child::after {
+  content: "\25BE";
+  /* Down-Pointing Small Triangle */
+  text-shadow: gray 1px 1px;
+}
+
+ul.nscal-holiday-list-indicator:hover> :first-child::after {
+  content: "\2212";
+  /* Minus Sign */
+}
+
 .nscal-entries-container {
   display: grid;
+  font-size: 0.75rem;
+  /* TODO: Should font-size be set here? rem or em? */
   grid-row: 2 / 5;
   grid-template-columns: 100%;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  min-height: 4.8rem; /* A container with no entries must be the same height as one with entries. */
+  line-height: 1.2;
+  /* TODO: Should line-height be set here? */
+  min-height: 4.8rem;
+  /* A container with no entries must be the same height as one with entries. */
 }
 
+/* spans in .nscal-entry overflows height of div. font-size, line-height or maybe grid setup? */
 .nscal-entry {
+  align-items: center;
   background: lightblue;
   border-radius: 3px;
   cursor: default;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
   margin: 1px;
+  max-height: 1.2em;
+  overflow: hidden;
   padding: 0.1rem;
+  row-gap: 0.2rem;
+}
+
+.nscal-entry-text {
+  flex-basis: 65%;
+  flex-grow: 2;
+}
+
+.nscal-entry-duration {
+  flex-shrink: 100;
+  overflow: hidden;
 }
 
 .nscal-text-nowrap {
@@ -211,10 +266,11 @@ div.today {
 }
 
 @keyframes pulse {
- from {
-  background: seagreen;
- }
- to {
-   background: inherit;
- } 
+  from {
+    background: seagreen;
+  }
+
+  to {
+    background: inherit;
+  }
 }
