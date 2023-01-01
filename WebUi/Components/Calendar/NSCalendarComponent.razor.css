@@ -13,7 +13,7 @@ div.today {
 
 /* CSS Grid */
 
-.nscal {
+.ns-calendar {
   display: grid;
   margin: 0 auto;
   grid-template-areas:
@@ -26,7 +26,7 @@ div.today {
   width: 100%;
 }
 
-.nscal-head {
+.calendar-head {
   display: grid;
   grid-area: calhead;
   grid-template-areas:
@@ -36,51 +36,51 @@ div.today {
   grid-template-rows: 8fr 6fr;
 }
 
-.nscal-month {
+.calendar-month {
   grid-area: head;
   text-align: center;
 }
 
-.nscal-month h3 {
+.calendar-month h3 {
   font-size: 1.2rem;
 }
 
-.nscal-nav {
+.calendar-nav {
   padding: 0.1em;
 }
 
-.nscal-nav.nscal-year {
+.calendar-nav.calendar-year {
   grid-area: nav;
   text-align: center;
 }
 
-.nscal-nav.nscal-prev {
+.calendar-nav.calendar-prev {
   grid-area: prev;
   text-align: left;
 }
 
-.nscal-nav.nscal-next {
+.calendar-nav.calendar-next {
   grid-area: next;
   text-align: right;
 }
 
-.nscal-button-link {
+.calendar-button-link {
   background: none;
   border: none;
   color: #0056b3;
 }
 
-.nscal-button-link:hover {
+.calendar-button-link:hover {
   background: none;
   text-decoration: underline;
 }
 
-.nscal-button-link:focus {
+.calendar-button-link:focus {
   border: none;
   outline: none;
 }
 
-.nscal-body {
+.calendar-body {
   display: grid;
   grid-area: calbody;
   grid-template-columns: 3ch repeat(7, minmax(6rem, 1fr));
@@ -91,7 +91,7 @@ div.today {
   min-width: 0;
 }
 
-.nscal-week-head {
+.calendar-week-head {
   align-items: center;
   border: 1px solid lightgrey;
   display: flex;
@@ -99,14 +99,14 @@ div.today {
   justify-content: center;
 }
 
-.nscal-week-item {
+.calendar-week-item {
   border: 1px solid lightgrey;
   display: flex;
   justify-content: center;
   padding: 5px;
 }
 
-.nscal-day-item {
+.calendar-day-item {
   border: 1px solid lightgrey;
   display: grid;
   grid-template-columns: 100%;
@@ -123,26 +123,28 @@ div.today {
   /* min-height: 6em; */
 }
 
-.nscal-large-text {
+.normal-text {
+  display: inline-block;
+  font-size: 0.75rem;
+}
+
+.large-text {
   display: inline-block;
   font-size: 1rem;
   padding-left: auto;
 }
 
-.nscal-normal-text {
-  display: inline-block;
-  font-size: 0.75rem;
-}
-
-.nscal-text-right {
+.text-right {
   text-align: right;
 }
 
-.nscal-text-left {
-  text-align: left;
+.text-nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.nscal-day-head {
+.calendar-day-head {
   display: grid;
   gap: 0 0;
   grid-template-areas: "holiday day";
@@ -152,65 +154,65 @@ div.today {
   justify-items: stretch;
 }
 
-.nscal-day-head-holiday {
+.calendar-day-head-holiday {
   grid-area: holiday;
   height: 2.4em;
   line-height: 1.2;
   overflow: hidden;
 }
 
-.nscal-day-head-holiday:hover {
+.calendar-day-head-holiday:hover {
   overflow: visible;
 }
 
-.nscal-day-head-holiday:hover ul {
+.calendar-day-head-holiday:hover ul {
   position: relative;
   z-index: 1;
 }
 
-.nscal-day-head-day {
+.calendar-day-head-day {
   grid-area: day;
   justify-self: stretch;
 }
 
-ul.nscal-holiday-list {
+ul.calendar-holiday-list {
   list-style-type: none;
   padding-left: 0;
 }
 
-ul.nscal-holiday-list>li {
+ul.calendar-holiday-list>li {
   align-items: center;
   display: flex;
   justify-content: space-between;
   padding: 0 0.4ch;
 }
 
-ul.nscal-holiday-list-indicator> :first-child::after {
-  content: "\25BE";
+ul.calendar-holiday-list-indicator> :first-child::after {
   /* Down-Pointing Small Triangle */
+  content: "\25BE";
   text-shadow: gray 1px 1px;
 }
 
-ul.nscal-holiday-list-indicator:hover> :first-child::after {
-  content: "\2212";
+ul.calendar-holiday-list-indicator:hover> :first-child::after {
   /* Minus Sign */
+  content: "\2212";
 }
 
-.nscal-entries-container {
+.calendar-entries-container {
   display: grid;
-  font-size: 0.75rem;
   /* TODO: Should font-size be set here? rem or em? */
+  font-size: 0.75rem;
   grid-row: 2 / 5;
   grid-template-columns: 100%;
   grid-template-rows: repeat(4, minmax(0, 1fr));
-  line-height: 1.2;
   /* TODO: Should line-height be set here? */
-  min-height: 4.8rem;
+  line-height: 1.2;
   /* A container with no entries must be the same height as one with entries. */
+  min-height: 4.8rem;
 }
 
-/* spans in .nscal-entry overflows height of div. font-size, line-height or maybe grid setup? */
-.nscal-entry {
+/* spans in .calendar-entry overflows height of div. font-size, line-height or maybe grid setup? */
+.calendar-entry {
   align-items: center;
   background: lightblue;
   border-radius: 3px;
@@ -225,20 +227,14 @@ ul.nscal-holiday-list-indicator:hover> :first-child::after {
   row-gap: 0.2rem;
 }
 
-.nscal-entry-text {
+.calendar-entry-text {
   flex-basis: 65%;
   flex-grow: 2;
 }
 
-.nscal-entry-duration {
+.calendar-entry-duration {
   flex-shrink: 100;
   overflow: hidden;
-}
-
-.nscal-text-nowrap {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Animations */

@@ -8,49 +8,49 @@ I. e. non of the if statements that are trying to close and open tr tags will wo
 must have balanced opening and closing tags.
 *@
 
-<div class="nscal" @onclick="@(() => _showEntries = false)">
-  <div class="nscal-head">
-    <div class="nscal-month">
+<div class="ns-calendar" @onclick="@(() => _showEntries = false)">
+  <div class="calendar-head">
+    <div class="calendar-month">
         <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
     </div>
-    <div class="nscal-nav nscal-year">
-        <button class="nscal-button-link" @onclick="GotoToday">@Localizer[Today]</button>
+    <div class="calendar-nav calendar-year">
+        <button class="calendar-button-link" @onclick="GotoToday">@Localizer[Today]</button>
     </div>
-    <div class="nscal-nav nscal-prev">
-        <button class="nscal-button-link" @onclick="GotoPrevious">
+    <div class="calendar-nav calendar-prev">
+        <button class="calendar-button-link" @onclick="GotoPrevious">
             &#x25C4; @* Black Left-Pointing Pointer *@ @GetFormattedMonthName(PreviousMonth.Month)
         </button>
     </div>
-    <div class="nscal-nav nscal-next">
-        <button class="nscal-button-link" @onclick="GotoNext">
+    <div class="calendar-nav calendar-next">
+        <button class="calendar-button-link" @onclick="GotoNext">
             @GetFormattedMonthName(NextMonth.Month) &#x25BA; @* Black Right-Pointing Pointer *@
         </button>
     </div>
   </div>
-  <div class="nscal-body">
-    <div class="nscal-week-head"></div>
+  <div class="calendar-body">
+    <div class="calendar-week-head"></div>
     @foreach (var day in WeekDays)
     {
-        <div class="nscal-week-head">@day.FirstCharToUpper()</div>
+        <div class="calendar-week-head">@day.FirstCharToUpper()</div>
     }
 
     @foreach (var week in Weeks)
     {
-        <div class="nscal-week-item">@week.WeekNumber</div>
+        <div class="calendar-week-item">@week.WeekNumber</div>
         @foreach(var day in week?.Days)
         {
-            <div class="@($"nscal-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
-                <div class="nscal-day-head@((day.Holidays.Any() ? " holiday" : string.Empty ))">
-                    <div class="nscal-day-head-holiday nscal-normal-text">
+            <div class="@($"calendar-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
+                <div class="calendar-day-head@((day.Holidays.Any() ? " holiday" : string.Empty ))">
+                    <div class="calendar-day-head-holiday normal-text">
                         @{ var holidayNames = day.GetHolidayLocalNames(); }
-                        <ul class="nscal-holiday-list@(holidayNames.Length > 2 ? " nscal-holiday-list-indicator" : string.Empty)">
+                        <ul class="calendar-holiday-list@(holidayNames.Length > 2 ? " calendar-holiday-list-indicator" : string.Empty)">
                             @foreach (var holidayName in holidayNames)
                             {
-                                <li class="nscal-holiday-list">@holidayName</li>
+                                <li class="calendar-holiday-list">@holidayName</li>
                             }
                         </ul>
                     </div>
-                    <div class="nscal-day-head-day nscal-large-text nscal-text-right">@day.DayNumber</div>
+                    <div class="calendar-day-head-day large-text text-right">@day.DayNumber</div>
                 </div>
                 <NSCalendarEntriesComponent
                     Day="@day"

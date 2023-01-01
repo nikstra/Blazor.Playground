@@ -3,7 +3,7 @@
 
 @if(Day.Entries.Any())
 {
-    <div class="nscal-entries-container" @onclick="OnClick" @onclick:stopPropagation="true">
+    <div class="calendar-entries-container" @onclick="OnClick" @onclick:stopPropagation="true">
         @{
             if(ShowEntries)
             {
@@ -14,23 +14,23 @@
 
             foreach (var entry in Day.Entries.Take(EntryLimit))
             {
-                <div class="nscal-entry">
-                    <span class="nscal-entry-text nscal-text-nowrap">@GetLocalTimeString(entry.Start), @entry.Name</span>
-                    <span class="nscal-entry-duration nscal-text-nowrap"> (@entry.DurationString)</span>
+                <div class="calendar-entry">
+                    <span class="calendar-entry-text text-nowrap">@GetLocalTimeString(entry.Start), @entry.Name</span>
+                    <span class="calendar-entry-duration text-nowrap"> (@entry.DurationString)</span>
                 </div>
             }
 
             var count = Day.Entries.Count();
             if(count > EntryLimit)
             {
-                <div class="nscal-entry nscal-normal-text">+ @(count - EntryLimit) @Localizer[NSCalendarComponent.More]</div>
+                <div class="calendar-entry normal-text">+ @(count - EntryLimit) @Localizer[NSCalendarComponent.More]</div>
             }
         }
     </div>
 }
 else
 {
-    <div class="nscal-entries-container"></div>
+    <div class="calendar-entries-container"></div>
 }
 
 @code {
