@@ -2,14 +2,19 @@
 @using Microsoft.JSInterop
 @using System.Globalization
 
-<strong>@Localizer[Language]:</strong>
-
-<select class="form-control" @bind="Culture" style="width:300px; margin-left:10px;">
-	@foreach (var culture in cultures)
-	{
-		<option value="@culture">@culture.DisplayName</option>
-	}
-</select>
+<div class="row g-3 align-items-center">
+  <div class="col-auto fs-6">
+    <label for="culture-select" class="col-form-label col-form-label-sm">@Localizer[Language]:</label>
+  </div>
+  <div class="col-auto fs-6">
+    <select id="culture-select" class="form-select form-select-sm" @bind="Culture">
+        @foreach (var culture in cultures)
+        {
+            <option value="@culture">@culture.DisplayName</option>
+        }
+    </select>
+  </div>
+</div>
 
 @code {
     public const string Language = "language";
