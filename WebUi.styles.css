@@ -12,27 +12,9 @@ div.today[calendar-scope] {
   color: gray;
 }
 
-.triangle-left[calendar-scope] {
-  border-bottom: 0.4rem solid transparent;
-  border-right: 1rem solid #0056b3;
-  border-top: 0.4rem solid transparent;
-  display: inline-block;
-  height: 0;
-  width: 0;
-}
-
-.triangle-right[calendar-scope] {
-  border-bottom: 0.4rem solid transparent;
-  border-left: 1rem solid #0056b3;
-  border-top: 0.4rem solid transparent;
-  display: inline-block;
-  height: 0;
-  width: 0;
-}
-
 /* CSS Grid */
 
-.nscal[calendar-scope] {
+.ns-calendar[calendar-scope] {
   display: grid;
   margin: 0 auto;
   grid-template-areas:
@@ -45,7 +27,7 @@ div.today[calendar-scope] {
   width: 100%;
 }
 
-.nscal-head[calendar-scope] {
+.calendar-head[calendar-scope] {
   display: grid;
   grid-area: calhead;
   grid-template-areas:
@@ -55,51 +37,56 @@ div.today[calendar-scope] {
   grid-template-rows: 8fr 6fr;
 }
 
-.nscal-month[calendar-scope] {
+.calendar-month[calendar-scope] {
   grid-area: head;
   text-align: center;
 }
 
-.nscal-month h3[calendar-scope] {
+.calendar-month h3[calendar-scope] {
   font-size: 1.2rem;
 }
 
-.nscal-nav[calendar-scope] {
+.calendar-nav[calendar-scope] {
   padding: 0.1em;
 }
 
-.nscal-nav.nscal-year[calendar-scope] {
+.calendar-nav button[calendar-scope] {
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.calendar-nav.calendar-year[calendar-scope] {
   grid-area: nav;
   text-align: center;
 }
 
-.nscal-nav.nscal-prev[calendar-scope] {
+.calendar-nav.calendar-prev[calendar-scope] {
   grid-area: prev;
   text-align: left;
 }
 
-.nscal-nav.nscal-next[calendar-scope] {
+.calendar-nav.calendar-next[calendar-scope] {
   grid-area: next;
   text-align: right;
 }
 
-.nscal-button-link[calendar-scope] {
+.calendar-button-link[calendar-scope] {
   background: none;
   border: none;
-  color: #0056b3;
+  color: #0057b3;
 }
 
-.nscal-button-link:hover[calendar-scope] {
+.calendar-button-link:hover[calendar-scope] {
   background: none;
-  text-decoration: underline;
+  background-color: #f0f5fa;
 }
 
-.nscal-button-link:focus[calendar-scope] {
+.calendar-button-link:focus[calendar-scope] {
   border: none;
   outline: none;
 }
 
-.nscal-body[calendar-scope] {
+.calendar-body[calendar-scope] {
   display: grid;
   grid-area: calbody;
   grid-template-columns: 3ch repeat(7, minmax(6rem, 1fr));
@@ -110,7 +97,7 @@ div.today[calendar-scope] {
   min-width: 0;
 }
 
-.nscal-week-head[calendar-scope] {
+.calendar-week-head[calendar-scope] {
   align-items: center;
   border: 1px solid lightgrey;
   display: flex;
@@ -118,14 +105,14 @@ div.today[calendar-scope] {
   justify-content: center;
 }
 
-.nscal-week-item[calendar-scope] {
+.calendar-week-item[calendar-scope] {
   border: 1px solid lightgrey;
   display: flex;
   justify-content: center;
   padding: 5px;
 }
 
-.nscal-day-item[calendar-scope] {
+.calendar-day-item[calendar-scope] {
   border: 1px solid lightgrey;
   display: grid;
   grid-template-columns: 100%;
@@ -136,32 +123,34 @@ div.today[calendar-scope] {
   justify-items: stretch;
   min-width: 0;
   overflow-y: hidden;
-  padding: 5px;
+  padding: 0.1rem;
   /* https://stackoverflow.com/questions/43311943/prevent-content-from-expanding-grid-items */
   /*height: 12vh; /* day-items overlap when resized */
   /* min-height: 6em; */
 }
 
-.nscal-large-text[calendar-scope] {
+.normal-text[calendar-scope] {
+  display: inline-block;
+  font-size: 0.75rem;
+}
+
+.large-text[calendar-scope] {
   display: inline-block;
   font-size: 1rem;
   padding-left: auto;
 }
 
-.nscal-normal-text[calendar-scope] {
-  display: inline-block;
-  font-size: 0.75rem;
-}
-
-.nscal-text-right[calendar-scope] {
+.text-right[calendar-scope] {
   text-align: right;
 }
 
-.nscal-text-left[calendar-scope] {
-  text-align: left;
+.text-nowrap[calendar-scope] {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.nscal-day-head[calendar-scope] {
+.calendar-day-head[calendar-scope] {
   display: grid;
   gap: 0 0;
   grid-template-areas: "holiday day";
@@ -171,65 +160,64 @@ div.today[calendar-scope] {
   justify-items: stretch;
 }
 
-.nscal-day-head-holiday[calendar-scope] {
+.calendar-day-head-holiday[calendar-scope] {
   grid-area: holiday;
   height: 2.4em;
   line-height: 1.2;
   overflow: hidden;
 }
 
-.nscal-day-head-holiday:hover[calendar-scope] {
+.calendar-day-head-holiday:hover[calendar-scope] {
   overflow: visible;
 }
 
-.nscal-day-head-holiday:hover ul[calendar-scope] {
+.calendar-day-head-holiday:hover ul[calendar-scope] {
   position: relative;
   z-index: 1;
 }
 
-.nscal-day-head-day[calendar-scope] {
+.calendar-day-head-day[calendar-scope] {
   grid-area: day;
   justify-self: stretch;
 }
 
-ul.nscal-holiday-list[calendar-scope] {
+ul.calendar-holiday-list[calendar-scope] {
   list-style-type: none;
   padding-left: 0;
 }
 
-ul.nscal-holiday-list>li[calendar-scope] {
+ul.calendar-holiday-list>li[calendar-scope] {
   align-items: center;
   display: flex;
   justify-content: space-between;
   padding: 0 0.4ch;
 }
 
-ul.nscal-holiday-list-indicator> :first-child[calendar-scope]::after {
-  content: "\25BE";
+ul.calendar-holiday-list-indicator> :first-child[calendar-scope]::after {
   /* Down-Pointing Small Triangle */
+  content: "\25BE";
   text-shadow: gray 1px 1px;
 }
 
-ul.nscal-holiday-list-indicator:hover> :first-child[calendar-scope]::after {
-  content: "\2212";
+ul.calendar-holiday-list-indicator:hover> :first-child[calendar-scope]::after {
   /* Minus Sign */
+  content: "\2212";
 }
 
-.nscal-entries-container[calendar-scope] {
+.calendar-entries-container[calendar-scope] {
   display: grid;
-  font-size: 0.75rem;
   /* TODO: Should font-size be set here? rem or em? */
+  font-size: 0.75rem;
   grid-row: 2 / 5;
   grid-template-columns: 100%;
-  grid-template-rows: repeat(4, minmax(0, 1fr));
-  line-height: 1.2;
+  grid-template-rows: repeat(4, 1.2rem);
   /* TODO: Should line-height be set here? */
-  min-height: 4.8rem;
+  line-height: 1.2rem;
   /* A container with no entries must be the same height as one with entries. */
+  min-height: 4.8rem;
 }
 
-/* spans in .nscal-entry overflows height of div. font-size, line-height or maybe grid setup? */
-.nscal-entry[calendar-scope] {
+.calendar-entry[calendar-scope] {
   align-items: center;
   background: lightblue;
   border-radius: 3px;
@@ -237,27 +225,20 @@ ul.nscal-holiday-list-indicator:hover> :first-child[calendar-scope]::after {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
+  line-height: inherit;
   margin: 1px;
-  max-height: 1.2em;
   overflow: hidden;
-  padding: 0.1rem;
-  row-gap: 0.2rem;
+  padding: 0 0.2rem;
 }
 
-.nscal-entry-text[calendar-scope] {
+.calendar-entry-text[calendar-scope] {
   flex-basis: 65%;
   flex-grow: 2;
 }
 
-.nscal-entry-duration[calendar-scope] {
+.calendar-entry-duration[calendar-scope] {
   flex-shrink: 100;
   overflow: hidden;
-}
-
-.nscal-text-nowrap[calendar-scope] {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 /* Animations */
