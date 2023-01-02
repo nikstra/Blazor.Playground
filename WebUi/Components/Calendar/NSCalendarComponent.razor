@@ -14,16 +14,18 @@ must have balanced opening and closing tags.
         <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
     </div>
     <div class="calendar-nav calendar-year">
-        <button class="calendar-button-link" @onclick="GotoToday">@Localizer[Today]</button>
+        <button class="calendar-button-link" @onclick="GotoToday"><span>@Localizer[Today]</span></button>
     </div>
     <div class="calendar-nav calendar-prev">
         <button class="calendar-button-link" @onclick="GotoPrevious">
-            &#x25C4; @* Black Left-Pointing Pointer *@ @GetFormattedMonthName(PreviousMonth.Month)
+            @* Black Left-Pointing Pointer *@
+            <span>&#x25C4; @GetFormattedMonthName(PreviousMonth.Month)</span>
         </button>
     </div>
     <div class="calendar-nav calendar-next">
         <button class="calendar-button-link" @onclick="GotoNext">
-            @GetFormattedMonthName(NextMonth.Month) &#x25BA; @* Black Right-Pointing Pointer *@
+            @* Black Right-Pointing Pointer *@
+            <span>@GetFormattedMonthName(NextMonth.Month) &#x25BA;</span>
         </button>
     </div>
   </div>

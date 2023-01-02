@@ -49,6 +49,11 @@ div.today {
   padding: 0.1em;
 }
 
+.calendar-nav button {
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
 .calendar-nav.calendar-year {
   grid-area: nav;
   text-align: center;
@@ -67,12 +72,12 @@ div.today {
 .calendar-button-link {
   background: none;
   border: none;
-  color: #0056b3;
+  color: #0057b3;
 }
 
 .calendar-button-link:hover {
   background: none;
-  text-decoration: underline;
+  background-color: #f0f5fa;
 }
 
 .calendar-button-link:focus {
