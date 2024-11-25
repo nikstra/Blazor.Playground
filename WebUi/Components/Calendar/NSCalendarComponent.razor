@@ -12,7 +12,7 @@ must have balanced opening and closing tags.
 <div class="ns-calendar" @onclick="@(() => _showEntries = false)">
   <div class="calendar-head">
     <div class="calendar-month">
-        <h3>@GetFormattedMonthName(SelectedDate.Month) @SelectedDate.Year</h3>
+        <h3>@GetFormattedMonthName(_selectedDate.Month) @_selectedDate.Year</h3>
     </div>
     <div class="calendar-nav calendar-year">
         <button class="calendar-button-link" @onclick="GotoToday"><span>@Localizer[Today]</span></button>

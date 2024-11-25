@@ -30,16 +30,7 @@ namespace WebUi.Components.Calendar
         private DateOnly PreviousMonth { get; set; }
         private DateOnly NextMonth { get; set; }
         private DateOnly _selectedDate = DateOnly.FromDateTime(DateTime.Now);
-        [Parameter] public DateOnly SelectedDate
-        {
-            get => _selectedDate;
-            set
-            {
-                PreviousMonth = value.AddMonths(-1);
-                NextMonth = value.AddMonths(1);
-                _selectedDate = value;
-            }
-        }
+        [Parameter] public DateOnly SelectedDate { get; set; }
 
         [Inject] ICalendarProvider CalendarProvider { get; set; }
         [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
@@ -47,16 +38,24 @@ namespace WebUi.Components.Calendar
 
         protected async override Task OnInitializedAsync()
         {
+            UpdateSelectedDate(SelectedDate);
             await LoadCalendar();
             await base.OnInitializedAsync();
         }
 
+        private void UpdateSelectedDate(DateOnly date)
+        {
+            _selectedDate = date;
+            PreviousMonth = _selectedDate.AddMonths(-1);
+            NextMonth = _selectedDate.AddMonths(1);
+        }
+
         private async Task LoadCalendar()
         {
-            var calendarModel = await CalendarProvider.GetAsync(SelectedDate);
+            var calendarModel = await CalendarProvider.GetAsync(_selectedDate);
             _entries = calendarModel.Entries.ToLookup(e => DateOnly.FromDateTime(e.Start.DateTime));
 
-            var startDate = new DateOnly(SelectedDate.Year, SelectedDate.Month, 1);
+            var startDate = new DateOnly(_selectedDate.Year, _selectedDate.Month, 1);
             Weeks = GetDaysWithEntries(startDate, _entries, calendarModel.Holidays);
         }
 
@@ -85,25 +84,25 @@ namespace WebUi.Components.Calendar
         private async Task GotoToday()
         {
             var now = DateOnly.FromDateTime(DateTime.Now);
-            if(SelectedDate == now)
+            if(_selectedDate == now)
             {
                 RunPulseTodayAnimation();
                 return;
             }
 
-            SelectedDate = now;
+            UpdateSelectedDate(now);
             await LoadCalendar();
         }
 
         private async Task GotoPrevious()
         {
-            SelectedDate = PreviousMonth;
+            UpdateSelectedDate(PreviousMonth);
             await LoadCalendar();
         }
 
         private async Task GotoNext()
         {
-            SelectedDate = NextMonth;
+            UpdateSelectedDate(NextMonth);
             await LoadCalendar();
         }
 
