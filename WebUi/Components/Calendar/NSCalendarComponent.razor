@@ -1,5 +1,4 @@
 ﻿@using WebUi.Extensions
-@using nikstra.HtmlAttributeBuilder
 
 @*
 Long lasting mystery solved, MarkupString is auto-closing tags.
@@ -43,12 +42,10 @@ must have balanced opening and closing tags.
         @foreach(var day in week?.Days)
         {
             <div class="@($"calendar-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
-                @* <div class="calendar-day-head@((day.Holidays.Any() ? " holiday" : string.Empty ))"> *@
-                <div class="@Css.Class("calendar-day-head").Class(day, d => d.Holiday)">
+                <div class="calendar-day-head@((day.Holidays.Any() ? " holiday" : string.Empty ))">
                     <div class="calendar-day-head-holiday normal-text">
                         @{ var holidayNames = day.GetHolidayLocalNames(); }
-                        @* <ul class="calendar-holiday-list@(holidayNames.Length > 2 ? " calendar-holiday-list-indicator" : string.Empty)"> *@
-                        <ul class="@Css.Class("calendar-holiday-list").Class(day, x => x.CalendarHolidayListIndicator)">
+                        <ul class="calendar-holiday-list@(holidayNames.Length > 2 ? " calendar-holiday-list-indicator" : string.Empty)">
                             @foreach (var holidayName in holidayNames)
                             {
                                 <li class="calendar-holiday-list">@holidayName</li>
