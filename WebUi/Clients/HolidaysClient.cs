@@ -32,6 +32,6 @@ public class HolidaysClient
         var stream = await response.Content.ReadAsStreamAsync();
         var holidays = await JsonSerializer.DeserializeAsync<IEnumerable<PublicHolidayModel>>(stream, _options);
 
-        return holidays;
+        return holidays ?? Enumerable.Empty<PublicHolidayModel>();
     }
 }

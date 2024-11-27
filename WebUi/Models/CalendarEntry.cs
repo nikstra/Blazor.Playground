@@ -5,7 +5,7 @@ namespace WebUi.Models
     public class CalendarEntry
     {
         public int Id { get; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public DateTimeOffset Start { get; set; }
         public TimeSpan Duration { get; set; }
         public string DurationString => Duration.ToString("g");
