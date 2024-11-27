@@ -2,11 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
-		<Nullable>disable</Nullable>
-    <UseRazorSourceGenerator>true</UseRazorSourceGenerator>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0" PrivateAssets="all" />
@@ -18,4 +17,5 @@
   <ItemGroup>
     <None Update="Components/Calendar/*.razor.css" CssScope="calendar-scope" />
   </ItemGroup>
+
 </Project>

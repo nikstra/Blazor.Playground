@@ -21,7 +21,7 @@ namespace WebUi.Components.Calendar
         public const string Today = "today";
         public const string More = "more";
 
-        private static Timer _timer;
+        private static System.Timers.Timer _timer;
         private string _todayPulse;
         private bool _showEntries;
         private ILookup<DateOnly, CalendarEntry> _entries;
