@@ -33,7 +33,7 @@
     void OnMoveLeft()
     {
         var item = RightData.FirstOrDefault();
-        if(RightData.Remove(item))
+        if(item is not null && RightData.Remove(item))
         {
             LeftData.Add(item);
         }
@@ -41,7 +41,7 @@
     void OnMoveRight()
     {
         var item = LeftData.FirstOrDefault();
-        if(LeftData.Remove(item))
+        if(item is not null && LeftData.Remove(item))
         {
             RightData.Add(item);
         }

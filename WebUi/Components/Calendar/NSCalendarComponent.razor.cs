@@ -21,10 +21,10 @@ namespace WebUi.Components.Calendar
         public const string Today = "today";
         public const string More = "more";
 
-        private static Timer _timer;
-        private string _todayPulse;
+        private static System.Timers.Timer? _timer;
+        private string _todayPulse = string.Empty;
         private bool _showEntries;
-        private ILookup<DateOnly, CalendarEntry> _entries;
+        private ILookup<DateOnly, CalendarEntry>? _entries;
         private IEnumerable<Week> Weeks { get; set; } = Array.Empty<Week>();
         private IEnumerable<string> WeekDays { get; set; } = GetLocalizedDayNames();
         private DateOnly PreviousMonth { get; set; }
@@ -32,9 +32,9 @@ namespace WebUi.Components.Calendar
         private DateOnly _selectedDate = DateOnly.FromDateTime(DateTime.Now);
         [Parameter] public DateOnly SelectedDate { get; set; }
 
-        [Inject] ICalendarProvider CalendarProvider { get; set; }
-        [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
-        [Inject] IJSRuntime JsRuntime { get; set; }
+        [Inject] ICalendarProvider CalendarProvider { get; set; } = default!;
+        [Inject] IStringLocalizer<NSCalendarComponent> Localizer { get; set; } = default!;
+        [Inject] IJSRuntime JsRuntime { get; set; } = default!;
 
         protected async override Task OnInitializedAsync()
         {
@@ -108,7 +108,7 @@ namespace WebUi.Components.Calendar
 
         private void ShowDetails(DateOnly date, MouseEventArgs eventArgs)
         {
-            var dayEntries = _entries[date];
+            var dayEntries = _entries?[date] ?? Enumerable.Empty<CalendarEntry>();
             if(!dayEntries.Any())
             {
                 return;

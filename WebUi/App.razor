@@ -1,16 +1,12 @@
-﻿@* TODO: It is probably a good idea to follow the .Net 6 to .Net 7 upgrade recommendations and create a new project:
- * https://learn.microsoft.com/en-us/aspnet/core/migration/60-70?view=aspnetcore-9.0&tabs=visual-studio-code#adopt-net-7-features
- * Commenting out to suppress the warning.
- * warning CS0618: 'Router.PreferExactMatches' is obsolete
- *@
-@* <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true"> *@
-<Router AppAssembly="@typeof(Program).Assembly">
+﻿<Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
+        <PageTitle>Not found</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <p>Sorry, there's nothing at this address.</p>
+            <p role="alert">Sorry, there's nothing at this address.</p>
         </LayoutView>
     </NotFound>
 </Router>

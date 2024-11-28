@@ -39,7 +39,7 @@ must have balanced opening and closing tags.
     @foreach (var week in Weeks)
     {
         <div class="calendar-week-item">@week.WeekNumber</div>
-        @foreach(var day in week?.Days)
+        @foreach(var day in week?.Days ?? Enumerable.Empty<Models.Day>())
         {
             <div class="@($"calendar-day-item {GetCssClass(day.Date)} {_todayPulse}")" @onclick="@(e => ShowDetails(day.Date, e))">
                 <div class="calendar-day-head@((day.Holidays.Any() ? " holiday" : string.Empty ))">

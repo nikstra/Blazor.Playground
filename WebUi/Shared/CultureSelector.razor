@@ -20,13 +20,13 @@
     public const string Language = "language";
 
     [Inject]
-    public IStringLocalizer<CultureSelector> Localizer { get; set; }
+    public IStringLocalizer<CultureSelector> Localizer { get; set; } = default!;
 
     [Inject]
-    public NavigationManager NavManager { get; set; }
+    public NavigationManager NavManager { get; set; } = default!;
 
     [Inject]
-    public IJSRuntime JSRuntime { get; set; }
+    public IJSRuntime JSRuntime { get; set; } = default!;
 
     CultureInfo[] cultures = new[]
     {

@@ -37,8 +37,9 @@ else
     double top = 0;
     double left = 0;
     [Parameter] public int EntryLimit { get; set; }
-    [Parameter] public Day Day { get; set; }
-    [Parameter] public IStringLocalizer<NSCalendarComponent> Localizer { get; set; }
+    [Parameter] public Day Day { get; set; } = new();
+    // TODO: Shouldn't we inject the IStringLocalizer<T> instead?
+    [Parameter] public IStringLocalizer<NSCalendarComponent> Localizer { get; set; } = default!;
     [Parameter] public bool ShowEntries  { get; set; }
 
     private void OnClick(MouseEventArgs eventArgs)

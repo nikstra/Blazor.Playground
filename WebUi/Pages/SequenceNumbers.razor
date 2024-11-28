@@ -12,7 +12,7 @@
  
 @code {
     private string dynamicContent = "This is a long text...";
-    private RenderFragment DynamicFragment;
+    private RenderFragment? DynamicFragment;
     private static int MyLineNum([CallerLineNumber] int sequence = 0) => sequence;
  
     private RenderFragment CreateComponent() => builder =>
