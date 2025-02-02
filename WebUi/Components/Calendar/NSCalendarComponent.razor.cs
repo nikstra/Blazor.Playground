@@ -20,6 +20,7 @@ namespace WebUi.Components.Calendar
         private const int EntryLimit = 3;
         public const string Today = "today";
         public const string More = "more";
+        public const string WeekAbbreviation = "wk";
 
         private static System.Timers.Timer? _timer;
         private string _todayPulse = string.Empty;
@@ -121,13 +122,13 @@ namespace WebUi.Components.Calendar
 
         private string GetCssClass(DateOnly date)
         {
-            if(DateOnly.FromDateTime(DateTime.Today) == date)
-            {
-                return "today";
-            }
-            else if(SelectedDate.Month != date.Month)
+            if(_selectedDate.Month != date.Month)
             {
                 return "other-month";
+            }
+            else if(DateOnly.FromDateTime(DateTime.Today) == date)
+            {
+                return "today";
             }
 
             return string.Empty;
@@ -160,7 +161,9 @@ namespace WebUi.Components.Calendar
                     dayIndex = dayIndex.AddDays(1);
                 }
                 
-                var weekNumber = GetWeekNumber(week[0].Date);
+                // var weekNumber = GetWeekNumber(week[0].Date); // Doesn't handle first/last week of year correctly.
+                var weekNumber = ISOWeek.GetWeekOfYear(
+                    week[0].Date.ToDateTime(TimeOnly.MaxValue));
 
                 yield return new Week { Days = week, WeekNumber = weekNumber };
             }
